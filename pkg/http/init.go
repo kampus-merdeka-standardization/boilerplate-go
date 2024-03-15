@@ -17,9 +17,9 @@ import (
 
 // NewHTTPServer returns gin http server
 func NewHTTPServer(ginMode string) *gin.Engine {
-	if ginMode == "release" {
+	if ginMode == gin.ReleaseMode {
 		gin.SetMode(ginMode)
-	} else if ginMode == "test" {
+	} else if ginMode == gin.TestMode {
 		gin.SetMode(ginMode)
 	} else {
 		gin.SetMode("debug")
