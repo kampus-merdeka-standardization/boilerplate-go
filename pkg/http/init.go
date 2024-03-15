@@ -22,7 +22,7 @@ func NewHTTPServer(ginMode string) *gin.Engine {
 	} else if ginMode == gin.TestMode {
 		gin.SetMode(ginMode)
 	} else {
-		gin.SetMode("debug")
+		gin.SetMode(gin.DebugMode)
 	}
 
 	if ve, ok := binding.Validator.Engine().(*validator.Validate); ok {
