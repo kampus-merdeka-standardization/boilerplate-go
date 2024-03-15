@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/grpc"
+	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/delivery/grpc"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger"
 	"google.golang.org/grpc"
 )

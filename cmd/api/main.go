@@ -1,19 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-
+	pinger_api "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/delivery/api"
 	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http"
 )
 
 func main() {
 	srv := httpPkg.NewHTTPServer("debug")
+	root := srv.Group("")
 
-	srv.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, httpPkg.Response{
-			Message: "Pong!!!",
-		})
-	})
+	pinger_api.NewPingerController(root)
 
 	srv.Run(":8080")
 }
