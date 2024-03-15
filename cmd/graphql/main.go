@@ -11,7 +11,6 @@ import (
 func main() {
 
 	srv := httpPkg.NewHTTPServer(gin.DebugMode)
-	// root := srv.Group("")
 
 	srv.POST("/pinger", pinger_graphql.NewPingerHandler)
 
