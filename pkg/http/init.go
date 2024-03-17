@@ -43,7 +43,7 @@ func NewHTTPServer(ginMode string) *gin.Engine {
 	gin.EnableJsonDecoderDisallowUnknownFields()
 	gin.DefaultWriter = io.MultiWriter(logFile, os.Stdout)
 
-	router := gin.Default()
+	router := gin.New()
 
 	router.Use(cors.New(cors.Config{
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
