@@ -1,3 +1,12 @@
 log/
 
-build/
+out/
+
+*api.env
+!example.api.env
+
+*graphql.env
+!example.graphql.env
+
+*grpc.env
+!example.grpc.env

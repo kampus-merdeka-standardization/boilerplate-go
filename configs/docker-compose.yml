@@ -4,7 +4,7 @@ services:
   app-api:
     build:
       context: ../
-      dockerfile: ./config/dockerfile/api.dockerfile
+      dockerfile: ./configs/dockerfile/api.dockerfile
     restart: always
     ports:
       - "8080:8080"
@@ -16,7 +16,7 @@ services:
   app-grpc:
     build:
       context: ../
-      dockerfile: ./config/dockerfile/grpc.dockerfile
+      dockerfile: ./configs/dockerfile/grpc.dockerfile
     restart: always
     ports:
       - "8081:8081"
@@ -28,7 +28,7 @@ services:
   app-graphql:
     build:
       context: ../
-      dockerfile: ./config/dockerfile/graphql.dockerfile
+      dockerfile: ./configs/dockerfile/graphql.dockerfile
     restart: always
     ports:
       - "8082:8082"

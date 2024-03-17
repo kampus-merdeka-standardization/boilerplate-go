@@ -1,18 +1,33 @@
 package main
 
 import (
-	"log"
 	"net"
 
 	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/handler/grpc"
+	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/configs"
+	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":8081")
+	err := configs.SetEnvVariables("./configs/env/grpc.env")
 	if err != nil {
-		log.Fatalf("Cannot create listener : %s", err.Error())
+		panic(err)
+	}
+
+	var conf configs.GrpcConfig
+	err = viper.Unmarshal(&conf)
+	if err != nil {
+		panic(err)
+	}
+
+	log := logger.NewLogger(conf.AppEnv)
+
+	lis, err := net.Listen("tcp", ":"+conf.Port)
+	if err != nil {
+		log.Fatal("Cannot create listener : " + err.Error())
 	}
 
 	serverRegistrar := grpc.NewServer()
@@ -20,9 +35,9 @@ func main() {
 
 	pinger.RegisterPingerServer(serverRegistrar, pingerServer)
 
-	log.Println("Service is running")
+	log.Info("Service is running on Port " + conf.Port)
 	err = serverRegistrar.Serve(lis)
 	if err != nil {
-		log.Fatalf("impossible to server : %s", err.Error())
+		log.Fatal("impossible to server : " + err.Error())
 	}
 }

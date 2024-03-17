@@ -9,7 +9,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o ./build/graphql/main ./cmd/graphql
+RUN go build -o ./out/graphql/main ./cmd/graphql
 
 # Path: config/Dockerfile.backend
 
@@ -17,6 +17,6 @@ FROM alpine:3.19
 
 WORKDIR /app
 
-COPY --from=builder /app/build/graphql/main /app/graphqlApp
+COPY --from=builder /app/out/graphql/main /app/graphqlApp
 
 ENTRYPOINT [ "/app/graphqlApp" ] 
