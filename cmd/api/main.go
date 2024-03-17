@@ -14,6 +14,7 @@ func main() {
 	log := logger.NewLogger(gin.DebugMode)
 
 	srv.Use(middleware.LogHandler(log), gin.Recovery())
+	srv.Use(middleware.CorsHandler())
 
 	root := srv.Group("")
 

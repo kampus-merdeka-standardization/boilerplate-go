@@ -7,9 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
-	"time"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -45,14 +43,7 @@ func NewHTTPServer(ginMode string) *gin.Engine {
 
 	router := gin.New()
 
-	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization", "Content-Disposition"},
-		ExposeHeaders:    []string{"Content-Disposition"},
-		AllowCredentials: true,
-		AllowAllOrigins:  true,
-		MaxAge:           12 * time.Hour,
-	}))
+	router.Use()
 
 	return router
 }
