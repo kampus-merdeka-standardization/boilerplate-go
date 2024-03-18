@@ -1,7 +1,7 @@
 .PHONY : gen-proto run-grpc build-grpc
 
 gen-proto:
-	protoc --go_out=./pkg/proto --go-grpc_out=./pkg/proto pkg/proto/*.proto
+	protoc --go_out=./pkg/proto --go-grpc_out=./pkg/proto pkg/proto/**/*.proto
 
 run-api:
 	go run ./cmd/api/main.go

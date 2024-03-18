@@ -3,7 +3,7 @@ package pinger_grpc
 import (
 	"context"
 
-	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger"
+	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger/v1"
 )
 
 func (p *pingerServer) Ping(ctx context.Context, req *pinger.PingRequest) (*pinger.PingResponse, error) {

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 	"go.uber.org/zap"
 )
 
@@ -29,7 +30,6 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 		param.ClientIP = c.ClientIP()
 		param.Method = c.Request.Method
 		param.StatusCode = c.Writer.Status()
-		param.ErrorMessage = c.Errors.ByType(gin.ErrorTypePrivate).String()
 		param.BodySize = c.Writer.Size()
 		if raw != "" {
 			path = path + "?" + raw
@@ -37,6 +37,7 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 		param.Path = path
 
 		if param.StatusCode >= http.StatusInternalServerError {
+			param.ErrorMessage = c.Errors.ByType(gin.ErrorTypePrivate).String()
 			logger.Error(
 				"Internal Server Error",
 				zap.String("client_id", param.ClientIP),
@@ -47,6 +48,7 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 				zap.String("error", param.ErrorMessage),
 			)
 		} else if param.StatusCode >= http.StatusBadRequest {
+			clientError := c.Errors[0].Err.(*errorPkg.ClientError)
 			logger.Debug(
 				"Bad Request",
 				zap.String("client_id", param.ClientIP),
@@ -54,7 +56,7 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 				zap.Int("body_size", param.BodySize),
 				zap.String("path", path),
 				zap.String("latency", param.Latency.String()),
-				zap.String("error", param.ErrorMessage),
+				zap.String("error", clientError.Message),
 			)
 		}
 	}
