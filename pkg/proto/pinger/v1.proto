@@ -13,7 +13,5 @@ message PingRequest {
 }
 
 message PingResponse {
-  string id = 1;
-  string message = 2;
-  string time_stamp = 3;
+  string message = 1;
 }

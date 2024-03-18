@@ -8,6 +8,6 @@ import (
 
 func (p *pingerServer) Ping(ctx context.Context, req *pinger.PingRequest) (*pinger.PingResponse, error) {
 	return &pinger.PingResponse{
-		Response: "Pong From Ping's " + req.Request,
+		Message: "pong",
 	}, nil
 }

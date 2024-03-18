@@ -23,7 +23,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PingerServiceClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
-	GetAllPing(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
 type pingerServiceClient struct {
@@ -43,21 +42,11 @@ func (c *pingerServiceClient) Ping(ctx context.Context, in *PingRequest, opts ..
 	return out, nil
 }
 
-func (c *pingerServiceClient) GetAllPing(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PingResponse, error) {
-	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, "/pinger.v1.PingerService/GetAllPing", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // PingerServiceServer is the server API for PingerService service.
 // All implementations must embed UnimplementedPingerServiceServer
 // for forward compatibility
 type PingerServiceServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
-	GetAllPing(context.Context, *Empty) (*PingResponse, error)
 	mustEmbedUnimplementedPingerServiceServer()
 }
 
@@ -67,9 +56,6 @@ type UnimplementedPingerServiceServer struct {
 
 func (UnimplementedPingerServiceServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
-}
-func (UnimplementedPingerServiceServer) GetAllPing(context.Context, *Empty) (*PingResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllPing not implemented")
 }
 func (UnimplementedPingerServiceServer) mustEmbedUnimplementedPingerServiceServer() {}
 
@@ -102,24 +88,6 @@ func _PingerService_Ping_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PingerService_GetAllPing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PingerServiceServer).GetAllPing(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pinger.v1.PingerService/GetAllPing",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PingerServiceServer).GetAllPing(ctx, req.(*Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // PingerService_ServiceDesc is the grpc.ServiceDesc for PingerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,10 +98,6 @@ var PingerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Ping",
 			Handler:    _PingerService_Ping_Handler,
-		},
-		{
-			MethodName: "GetAllPing",
-			Handler:    _PingerService_GetAllPing_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
