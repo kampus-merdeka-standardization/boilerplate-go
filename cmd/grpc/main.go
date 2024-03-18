@@ -4,9 +4,11 @@ import (
 	"net"
 
 	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/handler/grpc"
+	product_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/handler/grpc"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/configs"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger/v1"
+	product "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/product/v1"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 )
@@ -32,8 +34,10 @@ func main() {
 
 	serverRegistrar := grpc.NewServer()
 	pingerServer := pinger_grpc.NewPingerServer()
+	productServer := product_grpc.NewProductServer()
 
 	pinger.RegisterPingerServiceServer(serverRegistrar, pingerServer)
+	product.RegisterProductServiveServer(serverRegistrar, productServer)
 
 	log.Info("Service is running on Port " + conf.Port)
 	err = serverRegistrar.Serve(lis)

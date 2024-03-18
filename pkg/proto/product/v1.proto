@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package product.v1;
+
+option go_package = "gen/product/v1";
+
+service ProductServive {
+  rpc CreateProduct (CreateProductRequest) returns (ProductResponse);
+  rpc GetAllProduct (Empty) returns (GetAllProductResponse);
+  rpc GetProductByID (ID) returns (ProductResponse);
+  rpc UpdateProductByID (UpdateProductByIDRequest) returns (ProductResponse);
+  rpc DeleteProductByID (ID) returns (ID);
+}
+
+message CreateProductRequest {
+  string name = 1;
+}
+
+message UpdateProductByIDRequest {
+  string id = 1;
+  string name = 2;
+  string category = 3;
+}
+
+message ProductResponse {
+  string id = 1;
+  string name = 2;
+  string category = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message GetAllProductResponse {
+  repeated ProductResponse products = 1;
+}
+
+message ID {
+  string id = 1;
+}
+
+message Empty {
+}
