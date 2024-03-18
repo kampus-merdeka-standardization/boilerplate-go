@@ -1,11 +1,9 @@
 package middleware
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 	"go.uber.org/zap"
 )
 
@@ -36,9 +34,8 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 		}
 		param.Path = path
 
-		if param.StatusCode >= http.StatusInternalServerError {
-			param.ErrorMessage = c.Errors.ByType(gin.ErrorTypePrivate).String()
-			logger.Error(
+		if param.StatusCode >= 500 {
+			logger.Warn(
 				"Internal Server Error",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
@@ -47,16 +44,14 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 				zap.String("latency", param.Latency.String()),
 				zap.String("error", param.ErrorMessage),
 			)
-		} else if param.StatusCode >= http.StatusBadRequest {
-			clientError := c.Errors[0].Err.(*errorPkg.ClientError)
-			logger.Debug(
-				"Bad Request",
+		} else {
+			logger.Info(
+				"Request",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
 				zap.Int("body_size", param.BodySize),
 				zap.String("path", path),
 				zap.String("latency", param.Latency.String()),
-				zap.String("error", clientError.Message),
 			)
 		}
 	}
