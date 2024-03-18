@@ -6,17 +6,6 @@ option go_package = "gen/pinger/v1";
 
 service PingerService {
   rpc Ping(PingRequest) returns (PingResponse);
-  rpc GetAllPing(Empty) returns (GetAllPingResponse);
-  rpc UpdatePing (UpdatePingRequest) returns (PingResponse);
-  rpc DeletePing (DeletePingRequest) returns (Response);
-}
-
-message Empty {
-
-}
-
-message Reponse {
-  
 }
 
 message PingRequest {
@@ -28,18 +17,3 @@ message PingResponse {
   string message = 2;
   string time_stamp = 3;
 }
-
-message GetAllPingResponse {
-  repeated GetAllPingResponse pings = 1;
-}
-
-message UpdatePingRequest {
-  string id = 1;
-  string message = 2;
-}
-
-message DeletePingRequest {
-  string id = 1;
-}
-
-
