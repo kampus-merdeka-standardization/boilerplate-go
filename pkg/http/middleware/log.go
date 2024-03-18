@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -35,8 +36,8 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 		}
 		param.Path = path
 
-		if param.StatusCode >= 500 {
-			logger.Warn(
+		if param.StatusCode >= http.StatusInternalServerError {
+			logger.Error(
 				"Internal Server Error",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
@@ -45,14 +46,15 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 				zap.String("latency", param.Latency.String()),
 				zap.String("error", param.ErrorMessage),
 			)
-		} else {
-			logger.Info(
-				"Request",
+		} else if param.StatusCode >= http.StatusBadRequest {
+			logger.Debug(
+				"Bad Request",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
 				zap.Int("body_size", param.BodySize),
 				zap.String("path", path),
 				zap.String("latency", param.Latency.String()),
+				zap.String("error", param.ErrorMessage),
 			)
 		}
 	}

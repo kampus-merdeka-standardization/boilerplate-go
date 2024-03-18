@@ -42,7 +42,6 @@ func ErrorHandler() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Println(err.Err.Error())
 		c.JSON(500, httpPkg.Error{
 			Message: "Internal server error",
 		})
