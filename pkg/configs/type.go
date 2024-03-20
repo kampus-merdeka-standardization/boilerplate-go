@@ -1,19 +1,19 @@
 package configs
 
-type ApiConfig struct {
-	Port    string `mapstructure:"PORT"`
-	AppEnv  string `mapstructure:"APP_ENV"`
-	LogPath string `mapstructure:"LOG_PATH"`
+type apiConfig struct {
+	Port    string `env:"API_PORT"`
+	AppEnv  string `env:"API_APP_ENV"`
+	LogPath string `env:"API_LOG_PATH"`
 }
 
-type GrpcConfig struct {
-	Port    string `mapstructure:"PORT"`
-	AppEnv  string `mapstructure:"APP_ENV"`
-	LogPath string `mapstructure:"LOG_PATH"`
+type grpcConfig struct {
+	Port    string `env:"GRPC_PORT"`
+	AppEnv  string `env:"GRPC_APP_ENV"`
+	LogPath string `env:"GRPC_LOG_PATH"`
 }
 
-type GraphqlConfig struct {
-	Port    string `mapstructure:"PORT"`
-	AppEnv  string `mapstructure:"APP_ENV"`
-	LogPath string `mapstructure:"LOG_PATH"`
+type graphqlConfig struct {
+	Port    string `env:"GRPC_PORT"`
+	AppEnv  string `env:"GRPC_APP_ENV"`
+	LogPath string `env:"GRPC_LOG_PATH"`
 }

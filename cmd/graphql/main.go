@@ -7,20 +7,10 @@ import (
 	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http/middleware"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
-	"github.com/spf13/viper"
 )
 
 func main() {
-	err := configs.SetEnvVariables("./configs/env/graphql.env")
-	if err != nil {
-		panic(err)
-	}
-
-	var conf configs.GraphqlConfig
-	err = viper.Unmarshal(&conf)
-	if err != nil {
-		logger.Fatal(err.Error())
-	}
+	conf := configs.LoadGraphqlConfig()
 
 	srv := httpPkg.NewHTTPServer(conf.AppEnv)
 

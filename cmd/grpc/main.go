@@ -9,21 +9,11 @@ import (
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger/v1"
 	product "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/product/v1"
-	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	err := configs.SetEnvVariables("./configs/env/grpc.env")
-	if err != nil {
-		panic(err)
-	}
-
-	var conf configs.GrpcConfig
-	err = viper.Unmarshal(&conf)
-	if err != nil {
-		panic(err)
-	}
+	conf := configs.LoadGrpcConfig()
 
 	logger.InitLogger(conf.AppEnv, conf.LogPath)
 
