@@ -19,20 +19,20 @@ func main() {
 	var conf configs.GraphqlConfig
 	err = viper.Unmarshal(&conf)
 	if err != nil {
-		panic(err)
+		logger.Fatal(err.Error())
 	}
 
 	srv := httpPkg.NewHTTPServer(conf.AppEnv)
 
-	log := logger.NewLogger(conf.AppEnv)
+	logger.InitLogger(conf.AppEnv)
 
-	srv.Use(middleware.LogHandler(log), gin.Recovery())
+	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
 
 	srv.POST("/pinger", pinger_graphql.NewPingerHandler)
 
-	log.Info("Running on Port " + conf.Port)
+	logger.Info("Running on Port " + conf.Port)
 	if err := srv.Run(":" + conf.Port); err != nil {
-		log.Fatal(err.Error())
+		logger.Fatal(err.Error())
 	}
 }

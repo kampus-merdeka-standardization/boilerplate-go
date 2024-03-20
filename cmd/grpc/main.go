@@ -25,11 +25,11 @@ func main() {
 		panic(err)
 	}
 
-	log := logger.NewLogger(conf.AppEnv)
+	logger.InitLogger(conf.AppEnv)
 
 	lis, err := net.Listen("tcp", ":"+conf.Port)
 	if err != nil {
-		log.Fatal("Cannot create listener : " + err.Error())
+		logger.Fatal("Cannot create listener : " + err.Error())
 	}
 
 	serverRegistrar := grpc.NewServer()
@@ -39,9 +39,9 @@ func main() {
 	pinger.RegisterPingerServiceServer(serverRegistrar, pingerServer)
 	product.RegisterProductServiveServer(serverRegistrar, productServer)
 
-	log.Info("Service is running on Port " + conf.Port)
+	logger.Info("Service is running on Port " + conf.Port)
 	err = serverRegistrar.Serve(lis)
 	if err != nil {
-		log.Fatal("impossible to server : " + err.Error())
+		logger.Fatal("impossible to server : " + err.Error())
 	}
 }

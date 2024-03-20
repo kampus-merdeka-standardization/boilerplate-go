@@ -24,17 +24,17 @@ func main() {
 
 	srv := httpPkg.NewHTTPServer(conf.AppEnv)
 
-	log := logger.NewLogger(conf.AppEnv)
+	logger.InitLogger(conf.AppEnv)
 
-	srv.Use(middleware.LogHandler(log), gin.Recovery())
+	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
 
 	root := srv.Group("")
 
 	pinger_api.NewPingerController(root)
 
-	log.Info("Running on Port " + conf.Port)
+	logger.Info("Running on Port " + conf.Port)
 	if err := srv.Run(":" + conf.Port); err != nil {
-		log.Fatal(err.Error())
+		logger.Fatal(err.Error())
 	}
 }

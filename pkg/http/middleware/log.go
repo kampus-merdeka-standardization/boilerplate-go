@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 	"go.uber.org/zap"
 )
 
-func LogHandler(logger *zap.Logger) gin.HandlerFunc {
+func LogHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now() // Start timer
 		path := c.Request.URL.Path
@@ -35,7 +36,7 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 		param.Path = path
 
 		if param.StatusCode >= 500 {
-			logger.Warn(
+			logger.Error(
 				"Internal Server Error",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
@@ -45,7 +46,7 @@ func LogHandler(logger *zap.Logger) gin.HandlerFunc {
 				zap.String("error", param.ErrorMessage),
 			)
 		} else {
-			logger.Info(
+			logger.Debug(
 				"Request",
 				zap.String("client_id", param.ClientIP),
 				zap.String("method", param.Method),
