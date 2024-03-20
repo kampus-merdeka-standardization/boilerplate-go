@@ -22,10 +22,10 @@ build-graphql :
 	go build -o out/graphql/main ./cmd/api/main.go
 
 up:
-	docker-compose -f ./config/docker-compose.yml up -d
+	docker-compose -f ./configs/docker-compose.yml up -d
 
 up-build:
-	docker-compose -f ./config/docker-compose.yml up --build -d
+	docker-compose -f ./configs/docker-compose.yml up --build -d
 
 down :
 	docker-compose -f ./config/docker-compose.yml down

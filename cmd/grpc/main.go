@@ -25,7 +25,7 @@ func main() {
 		panic(err)
 	}
 
-	logger.InitLogger(conf.AppEnv)
+	logger.InitLogger(conf.AppEnv, conf.LogPath)
 
 	lis, err := net.Listen("tcp", ":"+conf.Port)
 	if err != nil {

@@ -1,13 +1,15 @@
 package logger
 
 import (
+	"time"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 var logger *zap.Logger
 
-func InitLogger(mode string) {
+func InitLogger(mode string, path string) {
 	var config zap.Config
 	if mode == "release" {
 		config = zap.NewProductionConfig()
@@ -15,10 +17,16 @@ func InitLogger(mode string) {
 		config = zap.NewDevelopmentConfig()
 	}
 	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
-	logger, err := config.Build()
+	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
+
+	config.OutputPaths = []string{path}
+
+	log, err := config.Build()
 	if err != nil {
 		panic(err)
 	}
+
+	logger = log
 	defer logger.Sync()
 }
 

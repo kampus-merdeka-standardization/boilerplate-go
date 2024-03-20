@@ -2,9 +2,6 @@
 package http
 
 import (
-	"io"
-	"log"
-	"os"
 	"reflect"
 	"strings"
 
@@ -33,13 +30,7 @@ func NewHTTPServer(ginMode string) *gin.Engine {
 		})
 	}
 
-	logFile, err := os.OpenFile(LOGFILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	gin.EnableJsonDecoderDisallowUnknownFields()
-	gin.DefaultWriter = io.MultiWriter(logFile, os.Stdout)
 
 	router := gin.New()
 

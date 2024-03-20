@@ -24,7 +24,7 @@ func main() {
 
 	srv := httpPkg.NewHTTPServer(conf.AppEnv)
 
-	logger.InitLogger(conf.AppEnv)
+	logger.InitLogger(conf.AppEnv, conf.LogPath)
 
 	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
