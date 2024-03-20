@@ -28,4 +28,4 @@ up-build:
 	docker-compose -f ./configs/docker-compose.yml up --build -d
 
 down :
-	docker-compose -f ./config/docker-compose.yml down
+	docker-compose -f ./configs/docker-compose.yml down

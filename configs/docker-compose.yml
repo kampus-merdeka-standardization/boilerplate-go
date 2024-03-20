@@ -12,7 +12,8 @@ services:
       mode: replicated
       replicas: 1
     volumes:
-      - "./log:/app/log"
+      - "../log:/app/log"
+      - "./env/api.env:/app/configs/env/api.env:ro"
   app-grpc:
     build:
       context: ../
@@ -24,7 +25,8 @@ services:
       mode: replicated
       replicas: 1
     volumes:
-      - "./log:/app/log"
+      - "../log:/app/log"
+      - "./env/grpc.env:/app/configs/env/grpc.env:ro"
   app-graphql:
     build:
       context: ../
@@ -36,4 +38,5 @@ services:
       mode: replicated
       replicas: 1
     volumes:
-      - "./log:/app/log"
+      - "../log:/app/log"
+      - "./env/graphql.env:/app/configs/env/graphql.env:ro"
