@@ -13,7 +13,7 @@ type grpcConfig struct {
 }
 
 type graphqlConfig struct {
-	Port    string `env:"GRPC_PORT"`
-	AppEnv  string `env:"GRPC_APP_ENV"`
-	LogPath string `env:"GRPC_LOG_PATH"`
+	Port    string `env:"GRAPHQL_PORT"`
+	AppEnv  string `env:"GRAPHQL_APP_ENV"`
+	LogPath string `env:"GRAPHQL_LOG_PATH"`
 }
