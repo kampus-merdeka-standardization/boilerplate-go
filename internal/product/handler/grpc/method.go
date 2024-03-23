@@ -3,7 +3,7 @@ package product_grpc
 import (
 	"context"
 
-	product "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/grpc"
+	product "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/generated/grpc"
 )
 
 func (p *productServer) CreateProduct(ctx context.Context, req *product.CreateProductRequest) (*product.ProductResponse, error) {
