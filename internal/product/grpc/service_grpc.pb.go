@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.3
-// source: pkg/proto/product/v1.proto
+// source: internal/product/proto/service.proto
 
-package v1
+package grpc
 
 import (
 	context "context"
@@ -39,7 +39,7 @@ func NewProductServiveClient(cc grpc.ClientConnInterface) ProductServiveClient {
 
 func (c *productServiveClient) CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*ProductResponse, error) {
 	out := new(ProductResponse)
-	err := c.cc.Invoke(ctx, "/product.v1.ProductServive/CreateProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.grpc_service.ProductServive/CreateProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (c *productServiveClient) CreateProduct(ctx context.Context, in *CreateProd
 
 func (c *productServiveClient) GetAllProduct(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAllProductResponse, error) {
 	out := new(GetAllProductResponse)
-	err := c.cc.Invoke(ctx, "/product.v1.ProductServive/GetAllProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.grpc_service.ProductServive/GetAllProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *productServiveClient) GetAllProduct(ctx context.Context, in *Empty, opt
 
 func (c *productServiveClient) GetProductByID(ctx context.Context, in *ID, opts ...grpc.CallOption) (*ProductResponse, error) {
 	out := new(ProductResponse)
-	err := c.cc.Invoke(ctx, "/product.v1.ProductServive/GetProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.grpc_service.ProductServive/GetProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *productServiveClient) GetProductByID(ctx context.Context, in *ID, opts 
 
 func (c *productServiveClient) UpdateProductByID(ctx context.Context, in *UpdateProductByIDRequest, opts ...grpc.CallOption) (*ProductResponse, error) {
 	out := new(ProductResponse)
-	err := c.cc.Invoke(ctx, "/product.v1.ProductServive/UpdateProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.grpc_service.ProductServive/UpdateProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *productServiveClient) UpdateProductByID(ctx context.Context, in *Update
 
 func (c *productServiveClient) DeleteProductByID(ctx context.Context, in *ID, opts ...grpc.CallOption) (*ID, error) {
 	out := new(ID)
-	err := c.cc.Invoke(ctx, "/product.v1.ProductServive/DeleteProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.grpc_service.ProductServive/DeleteProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func _ProductServive_CreateProduct_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product.v1.ProductServive/CreateProduct",
+		FullMethod: "/product.grpc_service.ProductServive/CreateProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiveServer).CreateProduct(ctx, req.(*CreateProductRequest))
@@ -154,7 +154,7 @@ func _ProductServive_GetAllProduct_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product.v1.ProductServive/GetAllProduct",
+		FullMethod: "/product.grpc_service.ProductServive/GetAllProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiveServer).GetAllProduct(ctx, req.(*Empty))
@@ -172,7 +172,7 @@ func _ProductServive_GetProductByID_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product.v1.ProductServive/GetProductByID",
+		FullMethod: "/product.grpc_service.ProductServive/GetProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiveServer).GetProductByID(ctx, req.(*ID))
@@ -190,7 +190,7 @@ func _ProductServive_UpdateProductByID_Handler(srv interface{}, ctx context.Cont
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product.v1.ProductServive/UpdateProductByID",
+		FullMethod: "/product.grpc_service.ProductServive/UpdateProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiveServer).UpdateProductByID(ctx, req.(*UpdateProductByIDRequest))
@@ -208,7 +208,7 @@ func _ProductServive_DeleteProductByID_Handler(srv interface{}, ctx context.Cont
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/product.v1.ProductServive/DeleteProductByID",
+		FullMethod: "/product.grpc_service.ProductServive/DeleteProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiveServer).DeleteProductByID(ctx, req.(*ID))
@@ -220,7 +220,7 @@ func _ProductServive_DeleteProductByID_Handler(srv interface{}, ctx context.Cont
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductServive_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "product.v1.ProductServive",
+	ServiceName: "product.grpc_service.ProductServive",
 	HandlerType: (*ProductServiveServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -245,5 +245,5 @@ var ProductServive_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/proto/product/v1.proto",
+	Metadata: "internal/product/proto/service.proto",
 }

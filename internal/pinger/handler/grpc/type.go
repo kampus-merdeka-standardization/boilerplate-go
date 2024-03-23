@@ -1,7 +1,7 @@
 package pinger_grpc
 
 import (
-	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger/v1"
+	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/grpc"
 )
 
 type pingerServer struct {

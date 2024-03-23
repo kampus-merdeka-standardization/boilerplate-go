@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package product.v1;
+package product.grpc_service;
 
-option go_package = "gen/product/v1";
+option go_package = "product/grpc";
 
 service ProductServive {
   rpc CreateProduct (CreateProductRequest) returns (ProductResponse);

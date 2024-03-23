@@ -3,12 +3,12 @@ package main
 import (
 	"net"
 
+	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/grpc"
 	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/pinger/handler/grpc"
+	product "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/grpc"
 	product_grpc "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/handler/grpc"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/configs"
 	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
-	pinger "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/pinger/v1"
-	product "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/proto/gen/product/v1"
 	"google.golang.org/grpc"
 )
 
