@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-package product.grpc_service;
-
 option go_package = "product/grpc";
 
 service ProductServive {
