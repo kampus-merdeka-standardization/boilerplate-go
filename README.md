@@ -2,6 +2,17 @@
 
 Golang Boilerplate for **T** Project based on **T** Standarization
 
+## Development Requirement
+
+To Develop the application make sure these app are installed on your machine
+
+1. **Docker**: Install docker to simplify development.
+
+2. **Make**: Makes are used to simplify command typed in the commandline, list of command can be found in Makefile file.
+
+3. **Sqlc**: You can install sqlc using the `go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest` command, make sure
+you already added your `GOBIN` Directory to your paths, you also consider other installation method here : https://docs.sqlc.dev/en/stable/overview/install.html.
+
 ## Setting Up Environment Configuration
 
 To configure your environment variables for this project, please follow these steps:
