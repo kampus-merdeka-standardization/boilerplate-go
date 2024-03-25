@@ -4,9 +4,11 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 
 	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http"
+	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 )
 
 func ErrorHandler() gin.HandlerFunc {
@@ -42,9 +44,9 @@ func ErrorHandler() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Println(err.Err.Error())
 		c.JSON(500, httpPkg.Error{
 			Message: "Internal server error",
 		})
+		logger.Error(err.Error(), zap.Any("Error", err))
 	}
 }

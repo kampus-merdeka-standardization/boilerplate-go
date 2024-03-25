@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.3
-// source: internal/pinger/proto/service.proto
+// source: pkg/proto/pinger.proto
 
 package grpc
 
@@ -101,5 +101,5 @@ var PingerService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "internal/pinger/proto/service.proto",
+	Metadata: "pkg/proto/pinger.proto",
 }
