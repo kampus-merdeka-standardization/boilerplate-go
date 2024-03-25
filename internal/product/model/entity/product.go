@@ -1,4 +1,4 @@
-package product_model
+package product_entity
 
 type Product struct {
 	ID    string  `db:"id"`
