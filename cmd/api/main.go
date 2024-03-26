@@ -19,9 +19,7 @@ func main() {
 	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
 
-	root := srv.Group("")
-
-	pinger_api.NewPingerController(root)
+	pinger_api.NewPingerController(srv.Group("/ping"))
 
 	logger.Info("Running on Port " + conf.Port)
 	if err := srv.Run(":" + conf.Port); err != nil {
