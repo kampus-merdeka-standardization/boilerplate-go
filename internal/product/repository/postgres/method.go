@@ -5,14 +5,14 @@ import (
 	"database/sql"
 
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
 	product_model "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/model/entity"
 	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 )
 
-func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx context.Context, tx *sqlx.Tx, name string, price float64) (string, error) {
+func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx context.Context, name string, price float64) (string, error) {
 	id := uuid.NewString()
-	_, err := tx.ExecContext(ctx, createProduct, id, name, price)
+
+	_, err := productPostgresRepository.db.ExecContext(ctx, createProduct, id, name, price)
 	if err != nil {
 		return "", errorPkg.NewBadRequest(err, "Error while creating product")
 	}
@@ -20,10 +20,10 @@ func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx co
 	return id, nil
 }
 
-func (productPostgresRepository *productPostgresRepository) GetProductByID(ctx context.Context, tx *sqlx.Tx, id string) (*product_model.Product, error) {
+func (productPostgresRepository *productPostgresRepository) GetProductByID(ctx context.Context, id string) (*product_model.Product, error) {
 	var product product_model.Product
 
-	err := tx.GetContext(ctx, &product, getProductByID, id)
+	err := productPostgresRepository.db.GetContext(ctx, &product, getProductByID, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errorPkg.NewNotFound(err, "Product Not Found")
@@ -34,10 +34,10 @@ func (productPostgresRepository *productPostgresRepository) GetProductByID(ctx c
 	return &product, nil
 }
 
-func (productPostgresRepository *productPostgresRepository) GetAllProduct(ctx context.Context, tx *sqlx.Tx) ([]product_model.Product, error) {
+func (productPostgresRepository *productPostgresRepository) GetAllProduct(ctx context.Context) ([]product_model.Product, error) {
 	var products []product_model.Product
 
-	err := tx.SelectContext(ctx, &products, getAllProduct)
+	err := productPostgresRepository.db.SelectContext(ctx, &products, getAllProduct)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errorPkg.NewNotFound(err, "Product Not Found")
@@ -48,8 +48,8 @@ func (productPostgresRepository *productPostgresRepository) GetAllProduct(ctx co
 	return products, nil
 }
 
-func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, tx *sqlx.Tx, id string, name string, price float64) error {
-	_, err := tx.ExecContext(ctx, updateProductByID, id, name, price)
+func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, id string, name string, price float64) error {
+	_, err := productPostgresRepository.db.ExecContext(ctx, updateProductByID, id, name, price)
 	if err != nil {
 		return errorPkg.NewBadRequest(err, "Error while updating product by id")
 	}
@@ -57,8 +57,8 @@ func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ct
 	return nil
 }
 
-func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ctx context.Context, tx *sqlx.Tx, id string) error {
-	_, err := tx.ExecContext(ctx, deleteProductByID, id)
+func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ctx context.Context, id string) error {
+	_, err := productPostgresRepository.db.ExecContext(ctx, deleteProductByID, id)
 	if err != nil {
 		return errorPkg.NewBadRequest(err, "Error while deleting product by id")
 	}

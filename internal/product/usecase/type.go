@@ -3,7 +3,6 @@ package product_usecase
 import (
 	"context"
 
-	"github.com/jmoiron/sqlx"
 	product_entity "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/model/entity"
 	product_repository "github.com/kampus-merdeka-standardization/boilerplate-go/internal/product/repository"
 )
@@ -17,6 +16,5 @@ type ProductUsecase interface {
 }
 
 type productUsecase struct {
-	db                *sqlx.DB
 	productRepository product_repository.ProductRepository
 }

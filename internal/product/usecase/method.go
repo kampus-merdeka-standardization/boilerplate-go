@@ -7,17 +7,7 @@ import (
 )
 
 func (productUsecase *productUsecase) CreateProduct(ctx context.Context, name string, price float64) (string, error) {
-	tx, err := productUsecase.db.Beginx()
-	if err != nil {
-		return "", err
-	}
-
-	id, err := productUsecase.productRepository.CreateProduct(ctx, tx, name, price)
-	if err != nil {
-		return "", err
-	}
-
-	err = tx.Commit()
+	id, err := productUsecase.productRepository.CreateProduct(ctx, name, price)
 	if err != nil {
 		return "", err
 	}
@@ -26,17 +16,7 @@ func (productUsecase *productUsecase) CreateProduct(ctx context.Context, name st
 }
 
 func (productUsecase *productUsecase) GetProductByID(ctx context.Context, id string) (*product_entity.Product, error) {
-	tx, err := productUsecase.db.Beginx()
-	if err != nil {
-		return nil, err
-	}
-
-	product, err := productUsecase.productRepository.GetProductByID(ctx, tx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	err = tx.Commit()
+	product, err := productUsecase.productRepository.GetProductByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -45,19 +25,8 @@ func (productUsecase *productUsecase) GetProductByID(ctx context.Context, id str
 }
 
 func (productUsecase *productUsecase) GetAllProduct(ctx context.Context) ([]product_entity.Product, error) {
-	tx, err := productUsecase.db.Beginx()
+	products, err := productUsecase.productRepository.GetAllProduct(ctx)
 	if err != nil {
-		return nil, err
-	}
-
-	products, err := productUsecase.productRepository.GetAllProduct(ctx, tx)
-	if err != nil {
-		return nil, err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
 		return nil, err
 	}
 
@@ -65,22 +34,12 @@ func (productUsecase *productUsecase) GetAllProduct(ctx context.Context) ([]prod
 }
 
 func (productUsecase *productUsecase) UpdateProductByID(ctx context.Context, id string, name string, price float64) error {
-	tx, err := productUsecase.db.Beginx()
+	product, err := productUsecase.productRepository.GetProductByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	product, err := productUsecase.productRepository.GetProductByID(ctx, tx, id)
-	if err != nil {
-		return err
-	}
-
-	err = productUsecase.productRepository.UpdateProductByID(ctx, tx, product.ID, name, price)
-	if err != nil {
-		return err
-	}
-
-	err = tx.Commit()
+	err = productUsecase.productRepository.UpdateProductByID(ctx, product.ID, name, price)
 	if err != nil {
 		return err
 	}
@@ -89,22 +48,12 @@ func (productUsecase *productUsecase) UpdateProductByID(ctx context.Context, id 
 }
 
 func (productUsecase *productUsecase) DeleteProductByID(ctx context.Context, id string) error {
-	tx, err := productUsecase.db.Beginx()
+	product, err := productUsecase.productRepository.GetProductByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	product, err := productUsecase.productRepository.GetProductByID(ctx, tx, id)
-	if err != nil {
-		return err
-	}
-
-	err = productUsecase.productRepository.DeleteProductByID(ctx, tx, product.ID)
-	if err != nil {
-		return err
-	}
-
-	err = tx.Commit()
+	err = productUsecase.productRepository.DeleteProductByID(ctx, product.ID)
 	if err != nil {
 		return err
 	}
