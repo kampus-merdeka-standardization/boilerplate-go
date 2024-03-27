@@ -23,7 +23,7 @@ func main() {
 	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
 
-	pgDb := db.NewPostgresDB(conf.PostgresHost, conf.PostgresUser, conf.PostgresPassword, conf.Port, conf.PostgresDb)
+	pgDb := db.NewPostgresDB(conf.PostgresDsn)
 
 	pinger_api.NewPingerController(srv.Group("/ping"))
 
