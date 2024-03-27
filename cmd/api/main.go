@@ -22,14 +22,23 @@ func main() {
 
 	srv.Use(middleware.LogHandler(), gin.Recovery())
 	srv.Use(middleware.CorsHandler())
+	srv.Use(middleware.ErrorHandler())
 
-	pgDb := db.NewPostgresDB(conf.PostgresDsn)
+	router := srv.Group("")
 
-	pinger_api.NewPingerController(srv.Group("/ping"))
+	pgDb := db.NewPostgresDB(db.PostgresDsn{
+		Host:     conf.PostgresHost,
+		User:     conf.PostgresUser,
+		Password: conf.PostgresPassword,
+		Port:     conf.PostgresPort,
+		Db:       conf.PostgresDb,
+	})
+
+	pinger_api.NewPingerController(router.Group("/ping"))
 
 	productRepository := product_postgres.NewProductRepository(pgDb)
 	productUsecase := product_usecase.NewProductUsecase(productRepository)
-	product_api.NewProductController(srv.Group("/product"), productUsecase)
+	product_api.NewProductController(router.Group("/product"), productUsecase)
 
 	logger.Info("Running on Port " + conf.Port)
 	if err := srv.Run(":" + conf.Port); err != nil {
