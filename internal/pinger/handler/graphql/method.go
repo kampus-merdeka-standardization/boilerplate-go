@@ -1,7 +1,7 @@
-package pinger_graphql
+package pinger_resolver
 
-import "github.com/graphql-go/graphql"
+import "fmt"
 
-func (ql *pingerGraphql) Ping(p graphql.ResolveParams) (interface{}, error) {
-	return "pong", nil
+func (p *PingResolver) Message() string {
+	return fmt.Sprintf("Pong! from %s", p.message)
 }

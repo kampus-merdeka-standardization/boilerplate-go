@@ -1,16 +1,18 @@
-package pinger_graphql
+package pinger_resolver
 
 import (
-	"github.com/graphql-go/graphql"
+	"context"
+	"errors"
+
+	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 )
 
-func NewField() *graphql.Field {
-	ql := &pingerGraphql{}
-
-	pinger := &graphql.Field{
-		Type:    graphql.String,
-		Resolve: ql.Ping,
+func NewPing(ctx context.Context, message string) (*PingResolver, error) {
+	if message == "" {
+		return nil, errorPkg.NewBadRequest(errors.New("message argument in ping query args is empty"), "Message is empty")
 	}
 
-	return pinger
+	return &PingResolver{
+		message: message,
+	}, nil
 }
