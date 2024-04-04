@@ -3,7 +3,7 @@
 gen-proto:
 	protoc --go_out=./internal --go-grpc_out=./internal ./pkg/proto/*.proto
 
-run-api:
+run-api: gen-proto
 	go run ./cmd/api/main.go
 
 build-api:
