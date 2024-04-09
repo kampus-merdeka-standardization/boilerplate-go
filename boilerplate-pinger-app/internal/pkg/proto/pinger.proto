@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "pinger/grpc";
+
+service PingerService {
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message PingRequest {
+  string message = 1;
+}
+
+message PingResponse {
+  string message = 1;
+}
