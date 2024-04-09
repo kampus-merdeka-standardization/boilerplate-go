@@ -1,12 +1,12 @@
 package middleware
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 
 	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http"
+	"github.com/kampus-merdeka-standardization/boilerplate-go/pkg/logger"
 )
 
 func ErrorHandler() gin.HandlerFunc {
@@ -21,6 +21,7 @@ func ErrorHandler() gin.HandlerFunc {
 		err := c.Errors[0]
 		// if err can be casted to ClientError, then it is a client error
 		if clientError, ok := err.Err.(*errorPkg.ClientError); ok {
+			logger.Error(clientError.Raw.Error(), zap.Int("Code", clientError.Code))
 			c.JSON(clientError.Code, httpPkg.Error{
 				Message: clientError.Message,
 			})
@@ -28,6 +29,7 @@ func ErrorHandler() gin.HandlerFunc {
 		}
 
 		if err.IsType(gin.ErrorTypeBind) {
+			logger.Error(err.Error(), zap.Any("Error", err))
 			c.JSON(400, httpPkg.Error{
 				Message: err.Err.Error(),
 			})
@@ -35,14 +37,14 @@ func ErrorHandler() gin.HandlerFunc {
 		}
 
 		if err.IsType(gin.ErrorTypePrivate) {
-			fmt.Println(err.Err.Error())
+			logger.Error(err.Error(), zap.Any("Error", err))
 			c.JSON(500, httpPkg.Error{
 				Message: "Internal server error",
 			})
 			return
 		}
 
-		fmt.Println(err.Err.Error())
+		logger.Error(err.Error(), zap.Any("Error", err))
 		c.JSON(500, httpPkg.Error{
 			Message: "Internal server error",
 		})

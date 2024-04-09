@@ -1,52 +1,18 @@
-package pinger_graphql
+package pinger_resolver
 
 import (
-	"log"
+	"context"
+	"errors"
 
-	"github.com/gin-gonic/gin"
-	"github.com/graphql-go/graphql"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/http"
+	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-go/pkg/error"
 )
 
-func NewPingerHandler(ctx *gin.Context) {
-	var query struct {
-		Query string `json:"query" binding:"required"`
+func NewPing(ctx context.Context, message string) (*PingResolver, error) {
+	if message == "" {
+		return nil, errorPkg.NewBadRequest(errors.New("message argument in ping query args is empty"), "Message is empty")
 	}
 
-	if err := ctx.ShouldBindJSON(&query); err != nil {
-		ctx.Error(err)
-		return
-	}
-
-	result := graphql.Do(graphql.Params{
-		Schema:        newSchema(),
-		RequestString: query.Query,
-	})
-
-	ctx.JSON(200, httpPkg.Response{
-		Message: "Successfully Retrieved Query Response",
-		Value:   result,
-	})
-}
-
-func newSchema() graphql.Schema {
-	ql := &pingerGraphql{}
-
-	rootQuery := graphql.NewObject(graphql.ObjectConfig{
-		Name: "RootQuery",
-		Fields: graphql.Fields{
-			"ping": &graphql.Field{
-				Type:    graphql.String,
-				Resolve: ql.Ping,
-			},
-		},
-	})
-
-	schema, err := graphql.NewSchema(graphql.SchemaConfig{
-		Query: rootQuery,
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	return schema
+	return &PingResolver{
+		message: message,
+	}, nil
 }

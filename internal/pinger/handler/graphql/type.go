@@ -1,4 +1,5 @@
-package pinger_graphql
+package pinger_resolver
 
-type pingerGraphql struct {
+type PingResolver struct {
+	message string
 }

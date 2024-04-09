@@ -2,6 +2,16 @@
 
 Golang Boilerplate for **T** Project based on **T** Standarization
 
+## Development Requirement
+
+To Develop the application make sure these app are installed on your machine
+
+1. **Docker**: Install docker to simplify development.
+
+2. **Make**: Makes are used to simplify command typed in the command line, list of command can be found in Makefile file.
+
+3. **Golang Migrate CLI**: used for database migration, refer to this link for installation instructions : https://github.com/golang-migrate/migrate/tree/master/cmd/migrate
+
 ## Setting Up Environment Configuration
 
 To configure your environment variables for this project, please follow these steps:

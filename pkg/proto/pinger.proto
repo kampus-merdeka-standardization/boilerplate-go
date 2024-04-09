@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "pinger/generated/grpc";
+option go_package = "pinger/grpc";
 
 service PingerService {
   rpc Ping(PingRequest) returns (PingResponse);
