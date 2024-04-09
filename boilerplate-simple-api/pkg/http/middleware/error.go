@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap"
 
 	errorPkg "simple-api/pkg/error"
-	httpPkg "simple-api/pkg/http"
+	pkg_http_wrapper "simple-api/pkg/http/wrapper"
 	pkg_logger "simple-api/pkg/logger"
 )
 
@@ -22,7 +22,7 @@ func ErrorHandler() gin.HandlerFunc {
 		// if err can be casted to ClientError, then it is a client error
 		if clientError, ok := err.Err.(*errorPkg.ClientError); ok {
 			pkg_logger.Error(clientError.Raw.Error(), zap.Int("Code", clientError.Code))
-			c.JSON(clientError.Code, httpPkg.Error{
+			c.JSON(clientError.Code, pkg_http_wrapper.Error{
 				Message: clientError.Message,
 			})
 			return
@@ -30,7 +30,7 @@ func ErrorHandler() gin.HandlerFunc {
 
 		if err.IsType(gin.ErrorTypeBind) {
 			pkg_logger.Error(err.Error(), zap.Any("Error", err))
-			c.JSON(400, httpPkg.Error{
+			c.JSON(400, pkg_http_wrapper.Error{
 				Message: err.Err.Error(),
 			})
 			return
@@ -38,14 +38,14 @@ func ErrorHandler() gin.HandlerFunc {
 
 		if err.IsType(gin.ErrorTypePrivate) {
 			pkg_logger.Error(err.Error(), zap.Any("Error", err))
-			c.JSON(500, httpPkg.Error{
+			c.JSON(500, pkg_http_wrapper.Error{
 				Message: "Internal server error",
 			})
 			return
 		}
 
 		pkg_logger.Error(err.Error(), zap.Any("Error", err))
-		c.JSON(500, httpPkg.Error{
+		c.JSON(500, pkg_http_wrapper.Error{
 			Message: "Internal server error",
 		})
 	}

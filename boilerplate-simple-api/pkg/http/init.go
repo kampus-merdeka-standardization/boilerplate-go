@@ -3,6 +3,7 @@ package pkg_http
 
 import (
 	"reflect"
+	pkg_http_middleware "simple-api/pkg/http/middleware"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,9 @@ func NewHTTPServer(ginMode string) *gin.Engine {
 
 	router := gin.New()
 
-	router.Use()
+	router.Use(pkg_http_middleware.LogHandler(), gin.Recovery())
+	router.Use(pkg_http_middleware.CorsHandler())
+	router.Use(pkg_http_middleware.ErrorHandler())
 
 	return router
 }

@@ -1,4 +1,4 @@
-package pkg_http
+package pkg_http_wrapper
 
 type (
 	Response struct {
