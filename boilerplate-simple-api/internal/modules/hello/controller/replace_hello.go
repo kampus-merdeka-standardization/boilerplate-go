@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	hello_request "simple-api/internal/modules/hello/models/request"
+	pkg_http_wrapper "simple-api/pkg/http/wrapper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,8 @@ func (hc *helloController) ReplaceHello(ctx *gin.Context) {
 
 	ctx.JSON(
 		http.StatusOK,
-		fmt.Sprintf("Your name is replaced from %s to %s", req.CurrentName, req.NewName),
+		pkg_http_wrapper.NewResponse(
+			fmt.Sprintf("Your name is replaced from %s to %s", req.CurrentName, req.NewName),
+		),
 	)
 }

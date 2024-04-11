@@ -33,10 +33,12 @@ func TestCreateHello(t *testing.T) {
 
 		messageExpect := fmt.Sprintf("Hello, %s you are %d years old", reqBody.Name, reqBody.Age)
 
-		resBody := pkg_http_wrapper.NewResponse("", nil)
+		resBody := pkg_http_wrapper.NewResponseWithValue("", hello_request.CreateHello{})
 		err = json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
 
 		assert.Equal(t, resBody.Message, messageExpect)
+
+		assert.Equal(t, reqBody, resBody.Value)
 	})
 }

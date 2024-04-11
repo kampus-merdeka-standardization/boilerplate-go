@@ -1,10 +1,10 @@
 package pkg_http_wrapper
 
 type (
-	response struct {
-		Message   string      `json:"message"`
-		Value     interface{} `json:"value"`
-		Error     string      `json:"error"`
-		Timestamp string      `json:"timestamp"`
+	response[T any] struct {
+		Message   string `json:"message,omitempty"`
+		Value     T      `json:"value,omitempty"`
+		Error     string `json:"error,omitempty"`
+		Timestamp string `json:"timestamp"`
 	}
 )
