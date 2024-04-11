@@ -23,8 +23,7 @@ func TestGetHelloByName(t *testing.T) {
 		name := "azie"
 		messageExpect := fmt.Sprintf("Hello, %s!", name)
 
-		resBody := pkg_http_wrapper.NewResponse("", "")
-
+		resBody := pkg_http_wrapper.NewResponse("")
 		err := json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
 

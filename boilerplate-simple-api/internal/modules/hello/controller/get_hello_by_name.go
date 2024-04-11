@@ -12,6 +12,6 @@ import (
 func (hc *helloController) GetHelloByName(ctx *gin.Context) {
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponse(fmt.Sprintf("Hello, %s!", ctx.Param("name")), nil),
+		pkg_http_wrapper.NewResponse(fmt.Sprintf("Hello, %s!", ctx.Param("name"))),
 	)
 }
