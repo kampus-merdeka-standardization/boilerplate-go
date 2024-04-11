@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func LogHandler() gin.HandlerFunc {
+func LogHandler(logPath string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now() // Start timer
 		path := c.Request.URL.Path
@@ -34,6 +34,8 @@ func LogHandler() gin.HandlerFunc {
 			path = path + "?" + raw
 		}
 		param.Path = path
+
+		pkg_logger.InitLogger(gin.Mode(), logPath)
 
 		if param.StatusCode >= 500 {
 			pkg_logger.Error(
