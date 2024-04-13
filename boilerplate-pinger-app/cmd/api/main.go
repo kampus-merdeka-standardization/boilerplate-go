@@ -33,7 +33,7 @@ func main() {
 	pinger_api.NewPingerController(router.Group("/ping"))
 
 	logger.Info("Running on Port " + conf.Port)
-	if err := srv.Run(":" + conf.Port); err != nil {
+	if err := srv.RunTLS(":"+conf.Port, conf.CertFilePath, conf.KeyFilePath); err != nil {
 		logger.Fatal(err.Error())
 	}
 }

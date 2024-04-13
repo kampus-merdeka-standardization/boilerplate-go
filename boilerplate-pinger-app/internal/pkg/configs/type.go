@@ -9,6 +9,8 @@ type apiConfig struct {
 	PostgresPassword string `env:"POSTGRES_PASSWORD"`
 	PostgresPort     int    `env:"POSTGRES_PORT"`
 	PostgresDb       string `env:"POSTGRES_DB"`
+	CertFilePath     string `env:"CERTFILE_PATH"`
+	KeyFilePath      string `env:"KEYFILE_PATH"`
 }
 
 type grpcConfig struct {
@@ -20,6 +22,8 @@ type grpcConfig struct {
 	PostgresPassword string `env:"POSTGRES_PASSWORD"`
 	PostgresPort     int    `env:"POSTGRES_PORT"`
 	PostgresDb       string `env:"POSTGRES_DB"`
+	CertFilePath     string `env:"CERTFILE_PATH"`
+	KeyFilePath      string `env:"KEYFILE_PATH"`
 }
 
 type graphqlConfig struct {
@@ -31,4 +35,6 @@ type graphqlConfig struct {
 	PostgresPassword string `env:"POSTGRES_PASSWORD"`
 	PostgresPort     int    `env:"POSTGRES_PORT"`
 	PostgresDb       string `env:"POSTGRES_DB"`
+	CertFilePath     string `env:"CERTFILE_PATH"`
+	KeyFilePath      string `env:"KEYFILE_PATH"`
 }
