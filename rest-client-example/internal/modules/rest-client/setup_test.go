@@ -11,8 +11,8 @@ func setupTest() (client, clientWithTls rest_client.RestClient) {
 	KeyFilePath := filepath.Join(testDir, "..", "..", "..", "test", "cert", "mock-client.key")
 	CaCertFilePath := filepath.Join(testDir, "..", "..", "..", "test", "cert", "mock-client.pem")
 
-	client = rest_client.NewRestClient("https://api.restful-api.dev")
-	clientWithTls = rest_client.NewRestClientWithTls("https://api.restful-api.dev", certFilePath, KeyFilePath, CaCertFilePath)
+	client, _ = rest_client.NewRestClient("https://api.restful-api.dev")
+	clientWithTls, _ = rest_client.NewRestClientWithTls("https://api.restful-api.dev", certFilePath, KeyFilePath, CaCertFilePath)
 
 	return client, clientWithTls
 }

@@ -117,4 +117,24 @@ func TestSentRequest(t *testing.T) {
 		assert.Equal(t, reqBody.Name, respBody.Name)
 		assert.Equal(t, reqBody.Data, respBody.Data)
 	})
+	t.Run("Failed Bad Request Body", func(t *testing.T) {
+		failBody := `
+		{
+			message ::::
+		}
+		`
+		_, code, err := clientWithTls.SendRequest(http.MethodPost, "/objects", failBody, map[string]string{
+			"content-type": "application/json",
+		})
+		require.Nil(t, err)
+
+		assert.Equal(t, 400, code)
+	})
+
+	t.Run("Failed path not found", func(t *testing.T) {
+		_, code, err := clientWithTls.SendRequest(http.MethodPost, "/fail-test31897291ye8hd", nil, nil)
+		require.Nil(t, err)
+
+		assert.Equal(t, 404, code)
+	})
 }
