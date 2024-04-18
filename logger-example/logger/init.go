@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"context"
+	"runtime"
 	"time"
 
 	"github.com/google/uuid"
@@ -20,7 +22,8 @@ func InitLogger(mode, name, path string) {
 		config = zap.NewDevelopmentConfig()
 	}
 	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
-	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
+	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
+	config.DisableCaller = true
 
 	config.OutputPaths = []string{path}
 
@@ -34,46 +37,81 @@ func InitLogger(mode, name, path string) {
 	defer logger.Sync()
 }
 
-func Info(fileName, methodName, msg string) {
+func Info(ctx context.Context, methodName, msg string) {
+	_, fileName, _, _ := runtime.Caller(0)
+
+	traceID, ok := ctx.Value(TraceID).(string)
+	if !ok {
+		traceID = uuid.NewString()
+	}
+
 	logger.Info(msg,
 		zap.String("app_name", appName),
-		zap.String("trace_id", uuid.NewString()),
+		zap.String("trace_id", traceID),
 		zap.String("file_name", fileName),
 		zap.String("method_name", methodName),
 	)
 }
 
-func Debug(fileName, methodName, msg string) {
+func Debug(ctx context.Context, methodName, msg string) {
+	_, fileName, _, _ := runtime.Caller(0)
+
+	traceID, ok := ctx.Value(TraceID).(string)
+	if !ok {
+		traceID = uuid.NewString()
+	}
+
 	logger.Debug(msg,
 		zap.String("app_name", appName),
-		zap.String("trace_id", uuid.NewString()),
+		zap.String("trace_id", traceID),
 		zap.String("file_name", fileName),
 		zap.String("method_name", methodName),
 	)
 }
 
-func Warn(fileName, methodName, msg string) {
+func Warn(ctx context.Context, methodName, msg string) {
+	_, fileName, _, _ := runtime.Caller(0)
+
+	traceID, ok := ctx.Value(TraceID).(string)
+	if !ok {
+		traceID = uuid.NewString()
+	}
+
 	logger.Warn(msg,
 		zap.String("app_name", appName),
-		zap.String("trace_id", uuid.NewString()),
+		zap.String("trace_id", traceID),
 		zap.String("file_name", fileName),
 		zap.String("method_name", methodName),
 	)
 }
 
-func Error(fileName, methodName, msg string) {
+func Error(ctx context.Context, methodName, msg string) {
+	_, fileName, _, _ := runtime.Caller(0)
+
+	traceID, ok := ctx.Value(TraceID).(string)
+	if !ok {
+		traceID = uuid.NewString()
+	}
+
 	logger.Error(msg,
 		zap.String("app_name", appName),
-		zap.String("trace_id", uuid.NewString()),
+		zap.String("trace_id", traceID),
 		zap.String("file_name", fileName),
 		zap.String("method_name", methodName),
 	)
 }
 
-func Fatal(fileName, methodName, msg string) {
+func Fatal(ctx context.Context, methodName, msg string) {
+	_, fileName, _, _ := runtime.Caller(0)
+
+	traceID, ok := ctx.Value(TraceID).(string)
+	if !ok {
+		traceID = uuid.NewString()
+	}
+
 	logger.Fatal(msg,
 		zap.String("app_name", appName),
-		zap.String("trace_id", uuid.NewString()),
+		zap.String("trace_id", traceID),
 		zap.String("file_name", fileName),
 		zap.String("method_name", methodName),
 	)
