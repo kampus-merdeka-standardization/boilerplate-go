@@ -12,14 +12,14 @@ import (
 func TestSentRequest(t *testing.T) {
 	client, clientWithTls := setupTest()
 
-	t.Run("Http Get Request Test", func(t *testing.T) {
+	t.Run("Successfully sending GET http request", func(t *testing.T) {
 		resp, code, err := client.SendRequest(http.MethodGet, "/objects/3", nil, nil)
 		require.Nil(t, err)
 		assert.Equal(t, 200, code)
 		require.NotNil(t, resp)
 	})
 
-	t.Run("Http Post Request Test", func(t *testing.T) {
+	t.Run("Successfully sending POST http request", func(t *testing.T) {
 		type bodyData struct {
 			Year         int     `json:"year"`
 			Price        float64 `json:"price"`
@@ -65,14 +65,14 @@ func TestSentRequest(t *testing.T) {
 		assert.Equal(t, reqBody.Data, respBody.Data)
 	})
 
-	t.Run("Https Get Request Test", func(t *testing.T) {
+	t.Run("Succesffuly sending GET https request", func(t *testing.T) {
 		resp, code, err := clientWithTls.SendRequest(http.MethodGet, "/objects/3", nil, nil)
 		require.Nil(t, err)
 		assert.Equal(t, 200, code)
 		require.NotNil(t, resp)
 	})
 
-	t.Run("Https Post Request Test", func(t *testing.T) {
+	t.Run("Succesffuly sending POST https request", func(t *testing.T) {
 		type bodyData struct {
 			Year         int     `json:"year"`
 			Price        float64 `json:"price"`
