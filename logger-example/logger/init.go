@@ -2,44 +2,50 @@ package logger
 
 import (
 	"context"
-	"fmt"
-	"runtime"
 	"time"
 
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
 var logger *zap.Logger
 
 var appName string
 
-func InitLogger(mode, name string, paths ...string) {
-	var config zap.Config
+func InitLogger(mode, name, path string) {
+	var config zapcore.EncoderConfig
+	var level zapcore.Level
 	if mode == "release" {
-		config = zap.NewProductionConfig()
+		config = zap.NewProductionEncoderConfig()
+		level = zap.InfoLevel
 	} else {
-		config = zap.NewDevelopmentConfig()
+		config = zap.NewDevelopmentEncoderConfig()
+		level = zap.DebugLevel
 	}
-	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
-	config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
-	config.DisableCaller = true
-	config.OutputPaths = paths
+	config.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	config.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339Nano)
 
-	log, err := config.Build()
-	if err != nil {
-		panic(err)
-	}
+	writer := zapcore.AddSync(&lumberjack.Logger{
+		Filename:   path,
+		MaxSize:    500,
+		MaxBackups: 10,
+		// MaxAge: 30,
+	})
 
-	logger = log
+	core := zapcore.NewCore(
+		zapcore.NewJSONEncoder(config),
+		writer,
+		level,
+	)
+
+	logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(level))
 	appName = name
 	defer logger.Sync()
 }
 
 func Info(ctx context.Context, methodName, msg string) {
-	_, fileName, line, _ := runtime.Caller(1)
-
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
@@ -48,14 +54,11 @@ func Info(ctx context.Context, methodName, msg string) {
 	logger.Info(msg,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
-		zap.String("file_name", fmt.Sprintf("%s:%d", fileName, line)),
 		zap.String("method_name", methodName),
 	)
 }
 
 func Debug(ctx context.Context, methodName, msg string) {
-	_, fileName, line, _ := runtime.Caller(1)
-
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
@@ -64,14 +67,11 @@ func Debug(ctx context.Context, methodName, msg string) {
 	logger.Debug(msg,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
-		zap.String("file_name", fmt.Sprintf("%s:%d", fileName, line)),
 		zap.String("method_name", methodName),
 	)
 }
 
 func Warn(ctx context.Context, methodName, msg string) {
-	_, fileName, line, _ := runtime.Caller(1)
-
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
@@ -80,14 +80,11 @@ func Warn(ctx context.Context, methodName, msg string) {
 	logger.Warn(msg,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
-		zap.String("file_name", fmt.Sprintf("%s:%d", fileName, line)),
 		zap.String("method_name", methodName),
 	)
 }
 
 func Error(ctx context.Context, methodName, msg string) {
-	_, fileName, line, _ := runtime.Caller(1)
-
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
@@ -96,14 +93,11 @@ func Error(ctx context.Context, methodName, msg string) {
 	logger.Error(msg,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
-		zap.String("file_name", fmt.Sprintf("%s:%d", fileName, line)),
 		zap.String("method_name", methodName),
 	)
 }
 
 func Fatal(ctx context.Context, methodName, msg string) {
-	_, fileName, line, _ := runtime.Caller(1)
-
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
@@ -112,7 +106,6 @@ func Fatal(ctx context.Context, methodName, msg string) {
 	logger.Fatal(msg,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
-		zap.String("file_name", fmt.Sprintf("%s:%d", fileName, line)),
 		zap.String("method_name", methodName),
 	)
 }
