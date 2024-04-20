@@ -16,7 +16,7 @@ import (
 func TestReplaceHello(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Successfully Sending Replace Hello Request", func(t *testing.T) {
+	t.Run("Success - Should Return Expected Result", func(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		reqBody := hello_request.ReplaceHello{

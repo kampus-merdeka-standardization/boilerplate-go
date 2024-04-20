@@ -14,7 +14,7 @@ import (
 func TestGetHelloByName(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Successfully Sending Get Hello By Name Request", func(t *testing.T) {
+	t.Run("Success - Return Expected Result", func(t *testing.T) {
 		res := httptest.NewRecorder()
 		req := httptest.NewRequest(http.MethodGet, "/hello/azie", nil)
 

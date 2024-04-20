@@ -17,7 +17,7 @@ import (
 func TestCreateHello(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Successfully Sending Create Hello Request", func(t *testing.T) {
+	t.Run("Success - Should Return Expected Result", func(t *testing.T) {
 		res := httptest.NewRecorder()
 		reqBody := hello_request.CreateHello{
 			Name: "Azie",

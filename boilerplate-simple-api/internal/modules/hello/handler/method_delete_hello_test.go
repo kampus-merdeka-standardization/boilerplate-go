@@ -15,7 +15,7 @@ import (
 func TestDeleteHello(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Successfully Sending Delete Hello Request", func(t *testing.T) {
+	t.Run("Success - Should Return Expected Result", func(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		id := uuid.NewString()

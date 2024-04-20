@@ -16,7 +16,7 @@ import (
 
 func TestUpdateHello(t *testing.T) {
 	srv := setupTest()
-	t.Run("Successfully Sending Update Hello Request", func(t *testing.T) {
+	t.Run("Success - Should Return Expected Result", func(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		reqBody := hello_request.UpdateHello{
