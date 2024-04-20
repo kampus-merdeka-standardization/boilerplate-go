@@ -9,17 +9,15 @@ import (
 )
 
 func main() {
-	pkg_logger.InitLogger(gin.DebugMode, "logger-app", pkg_http.LOGFILE)
-	srv := pkg_http.NewHTTPServer(gin.DebugMode)
+	pkg_logger.InitLogger(gin.ReleaseMode, "logger-app", pkg_http.LOGFILE)
+	srv := pkg_http.NewHTTPServer(gin.ReleaseMode)
 
 	srv.Use(pkg_http_middleware.LogHandlerMiddleware(), gin.Logger(), gin.Recovery())
 	srv.Use(pkg_http_middleware.CorsHandlerMiddleware())
 	srv.Use(pkg_http_middleware.ErrorHandlerMiddleware())
 
 	srv.GET("", func(ctx *gin.Context) {
-		ctx.JSON(200, pkg_http.Response{
-			Message: "Successfully Connected to Logger Example API",
-		})
+		ctx.JSON(200, "Welcome to Logger Api")
 	})
 
 	if err := srv.Run(":8080"); err != nil {
