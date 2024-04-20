@@ -1,4 +1,4 @@
-package logger
+package pkg_logger
 
 import (
 	"context"
@@ -29,7 +29,7 @@ func InitLogger(mode, name, path string) {
 
 	writer := zapcore.AddSync(&lumberjack.Logger{
 		Filename:   path,
-		MaxSize:    500,
+		MaxSize:    200,
 		MaxBackups: 10,
 		// MaxAge: 30,
 	})
@@ -40,72 +40,102 @@ func InitLogger(mode, name, path string) {
 		level,
 	)
 
-	logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(level))
+	logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	appName = name
 	defer logger.Sync()
 }
 
-func Info(ctx context.Context, methodName, msg string) {
+func Info(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+
+	fields = append(
+		fields,
+		zap.String("app_name", appName),
+		zap.String("trace_id", traceID),
+		zap.String("method_name", methodName),
+	)
 
 	logger.Info(msg,
-		zap.String("app_name", appName),
-		zap.String("trace_id", traceID),
-		zap.String("method_name", methodName),
+		fields...,
 	)
 }
 
-func Debug(ctx context.Context, methodName, msg string) {
+func Debug(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+
+	fields = append(
+		fields,
+		zap.String("app_name", appName),
+		zap.String("trace_id", traceID),
+		zap.String("method_name", methodName),
+	)
 
 	logger.Debug(msg,
-		zap.String("app_name", appName),
-		zap.String("trace_id", traceID),
-		zap.String("method_name", methodName),
+		fields...,
 	)
 }
 
-func Warn(ctx context.Context, methodName, msg string) {
+func Warn(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
 
-	logger.Warn(msg,
+	fields = append(
+		fields,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
 	)
+
+	logger.Warn(msg, fields...)
 }
 
-func Error(ctx context.Context, methodName, msg string) {
+func Error(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+
+	fields = append(
+		fields,
+		zap.String("app_name", appName),
+		zap.String("trace_id", traceID),
+		zap.String("method_name", methodName),
+	)
 
 	logger.Error(msg,
-		zap.String("app_name", appName),
-		zap.String("trace_id", traceID),
-		zap.String("method_name", methodName),
+		fields...,
 	)
 }
 
-func Fatal(ctx context.Context, methodName, msg string) {
+func Fatal(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
 
-	logger.Fatal(msg,
+	fields = append(
+		fields,
 		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
 	)
+
+	logger.Fatal(msg,
+		fields...,
+	)
+
+	//	func traceMethodName() string {
+	//		pc := make([]uintptr, 1) // at least 1 entry needed
+	//		runtime.Callers(4, pc)
+	//		m := runtime.FuncForPC(pc[0])
+	//		return m.Name()
+	//	}
 }

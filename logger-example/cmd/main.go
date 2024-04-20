@@ -1,40 +1,28 @@
 package main
 
 import (
-	"context"
-	"logger-example/logger"
+	pkg_http "logger-example/pkg/http"
+	pkg_http_middleware "logger-example/pkg/http/middleware"
+	pkg_logger "logger-example/pkg/logger"
 
-	"github.com/google/uuid"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	logger.InitLogger("release", "example-app", "./log/example.log")
+	pkg_logger.InitLogger(gin.DebugMode, "logger-app", pkg_http.LOGFILE)
+	srv := pkg_http.NewHTTPServer(gin.DebugMode)
 
-	// for {
-	// 	ctx := context.Background()
-	// 	logger.Info(ctx, "create_product", "can't connect to db")
-	// 	logger.Debug(ctx, "create_product", "can't connect to db")
-	// 	logger.Warn(ctx, "create_product", "can't connect to db")
-	// 	logger.Error(ctx, "create_product", "can't connect to db")
+	srv.Use(pkg_http_middleware.LogHandlerMiddleware(), gin.Logger(), gin.Recovery())
+	srv.Use(pkg_http_middleware.CorsHandlerMiddleware())
+	srv.Use(pkg_http_middleware.ErrorHandlerMiddleware())
 
-	// 	ctx = context.WithValue(ctx, logger.TraceID, uuid.NewString())
-	// 	logger.Info(ctx, "create_product", "failed to create product")
-	// 	logger.Debug(ctx, "create_product", "failed to create product")
-	// 	logger.Warn(ctx, "create_product", "failed to create product")
-	// 	logger.Error(ctx, "create_product", "failed to create product")
-	// }
+	srv.GET("", func(ctx *gin.Context) {
+		ctx.JSON(200, pkg_http.Response{
+			Message: "Successfully Connected to Logger Example API",
+		})
+	})
 
-	ctx := context.Background()
-	logger.Info(ctx, "create_product", "can't connect to db")
-	logger.Debug(ctx, "create_product", "can't connect to db")
-	logger.Warn(ctx, "create_product", "can't connect to db")
-	logger.Error(ctx, "create_product", "can't connect to db")
-	// logger.Fatal(ctx, "create_product", "can't connect to db")
-
-	ctx = context.WithValue(ctx, logger.TraceID, uuid.NewString())
-	logger.Info(ctx, "create_product", "failed to create product")
-	logger.Debug(ctx, "create_product", "failed to create product")
-	logger.Warn(ctx, "create_product", "failed to create product")
-	logger.Error(ctx, "create_product", "failed to create product")
-	// logger.Fatal(ctx, "create_product", "failed to create product")
+	if err := srv.Run(":8080"); err != nil {
+		panic(err)
+	}
 }
