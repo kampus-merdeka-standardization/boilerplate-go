@@ -1,4 +1,4 @@
-package hello_controller_test
+package hello_handler_test
 
 import (
 	"encoding/json"
@@ -8,28 +8,24 @@ import (
 	pkg_http_wrapper "simple-api/pkg/http/wrapper"
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDeleteHello(t *testing.T) {
+func TestGetHelloByName(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Delete Hello Http Test 1", func(t *testing.T) {
+	t.Run("Successfully Sending Get Hello By Name Request", func(t *testing.T) {
 		res := httptest.NewRecorder()
-
-		id := uuid.NewString()
-		req := httptest.NewRequest(http.MethodDelete, "/hello/"+id, nil)
+		req := httptest.NewRequest(http.MethodGet, "/hello/azie", nil)
 
 		srv.ServeHTTP(res, req)
 
-		messageExpect := fmt.Sprintf("Your Data by the id of %s is successfully deleted", id)
+		name := "azie"
+		messageExpect := fmt.Sprintf("Hello, %s!", name)
 
 		resBody := pkg_http_wrapper.NewResponse("")
 		err := json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
-
-		assert.Empty(t, resBody.Error)
 
 		assert.Equal(t, messageExpect, resBody.Message)
 	})

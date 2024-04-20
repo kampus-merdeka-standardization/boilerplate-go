@@ -1,7 +1,7 @@
-package hello_controller_test
+package hello_handler_test
 
 import (
-	hello_controller "simple-api/internal/modules/hello/controller"
+	hello_controller "simple-api/internal/modules/hello/handler"
 	pkg_http "simple-api/pkg/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +10,6 @@ import (
 func setupTest() *gin.Engine {
 	srv := pkg_http.NewHTTPServer(gin.TestMode)
 
-	hello_controller.BindHelloController(srv.Group("/hello"))
+	hello_controller.BindHelloHandler(srv.Group("/hello"))
 	return srv
 }

@@ -1,8 +1,8 @@
-package hello_controller
+package hello_handler
 
 import "github.com/gin-gonic/gin"
 
-func BindHelloController(router *gin.RouterGroup) {
+func BindHelloHandler(router *gin.RouterGroup) {
 	// root path : /hello
 	controller := new(helloController)
 

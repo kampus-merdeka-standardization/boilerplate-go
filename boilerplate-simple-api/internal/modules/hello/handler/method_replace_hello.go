@@ -1,4 +1,4 @@
-package hello_controller
+package hello_handler
 
 import (
 	"fmt"
@@ -9,9 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// path : /hello [PATCH]
-func (hc *helloController) UpdateHello(ctx *gin.Context) {
-	var req hello_request.UpdateHello
+// path : /hello [PUT]
+func (hc *helloController) ReplaceHello(ctx *gin.Context) {
+	var req hello_request.ReplaceHello
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.Error(err)
 		return
@@ -19,6 +19,8 @@ func (hc *helloController) UpdateHello(ctx *gin.Context) {
 
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponse(fmt.Sprintf("Your name is replaced to %s", req.NewName)),
+		pkg_http_wrapper.NewResponse(
+			fmt.Sprintf("Your name is replaced from %s to %s", req.CurrentName, req.NewName),
+		),
 	)
 }

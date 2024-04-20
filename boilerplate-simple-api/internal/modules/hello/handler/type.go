@@ -1,4 +1,4 @@
-package hello_controller
+package hello_handler
 
 type helloController struct {
 }

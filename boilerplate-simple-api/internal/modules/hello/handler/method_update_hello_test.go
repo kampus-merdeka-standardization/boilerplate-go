@@ -1,4 +1,4 @@
-package hello_controller_test
+package hello_handler_test
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ import (
 
 func TestUpdateHello(t *testing.T) {
 	srv := setupTest()
-	t.Run("Update Hello Http Test 1", func(t *testing.T) {
+	t.Run("Successfully Sending Update Hello Request", func(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		reqBody := hello_request.UpdateHello{

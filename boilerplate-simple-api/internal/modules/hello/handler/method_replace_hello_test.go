@@ -1,4 +1,4 @@
-package hello_controller_test
+package hello_handler_test
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ import (
 func TestReplaceHello(t *testing.T) {
 	srv := setupTest()
 
-	t.Run("Replace Hello Http Test 1", func(t *testing.T) {
+	t.Run("Successfully Sending Replace Hello Request", func(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		reqBody := hello_request.ReplaceHello{
