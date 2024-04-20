@@ -1,7 +1,6 @@
 package pkg_http_middleware
 
 import (
-	"fmt"
 	"time"
 
 	pkg_logger "logger-example/pkg/logger"
@@ -41,7 +40,6 @@ func LogHandlerMiddleware() gin.HandlerFunc {
 			param.ErrorMessage = c.Errors[0].Error()
 			pkg_logger.Error(
 				c,
-				"LogHandlerMiddleware",
 				"Internal Server Error : "+param.ErrorMessage,
 				zap.String("client_id", param.ClientIP),
 				zap.String("http_method", param.Method),
@@ -54,7 +52,6 @@ func LogHandlerMiddleware() gin.HandlerFunc {
 			pkg_logger.Debug(
 				c,
 				"LogHandlerMiddleware",
-				fmt.Sprintf("%s[%s] Request", param.Path, param.Method),
 				zap.String("client_id", param.ClientIP),
 				zap.String("http_method", param.Method),
 				zap.Int("body_size", param.BodySize),

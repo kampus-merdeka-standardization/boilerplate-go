@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	pkg_http "logger-example/pkg/http"
 	pkg_http_middleware "logger-example/pkg/http/middleware"
 	pkg_logger "logger-example/pkg/logger"
@@ -18,6 +19,9 @@ func main() {
 
 	srv.GET("", func(ctx *gin.Context) {
 		ctx.JSON(200, "Welcome to Logger Api")
+	})
+	srv.GET("/error", func(ctx *gin.Context) {
+		ctx.Error(errors.New("http server not responding"))
 	})
 
 	if err := srv.Run(":8080"); err != nil {

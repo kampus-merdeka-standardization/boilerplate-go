@@ -2,6 +2,8 @@ package pkg_logger
 
 import (
 	"context"
+	"fmt"
+	"runtime"
 	"time"
 
 	"github.com/google/uuid"
@@ -40,22 +42,31 @@ func InitLogger(mode, name, path string) {
 		level,
 	)
 
-	logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	logger = zap.New(core)
 	appName = name
 	defer logger.Sync()
 }
 
-func Info(ctx context.Context, methodName, msg string, fields ...zap.Field) {
+func traceFileNameAndMethodName() (fileName, methodName string) {
+	pc, file, line, _ := runtime.Caller(2)
+	details := runtime.FuncForPC(pc)
+
+	return fmt.Sprintf("%s:%d", file, line), details.Name()
+}
+
+func Info(ctx context.Context, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+	fileName, methodName := traceFileNameAndMethodName()
 
 	fields = append(
 		fields,
-		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
+		zap.String("file_name", fileName),
+		zap.String("app_name", appName),
 	)
 
 	logger.Info(msg,
@@ -63,17 +74,19 @@ func Info(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	)
 }
 
-func Debug(ctx context.Context, methodName, msg string, fields ...zap.Field) {
+func Debug(ctx context.Context, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+	fileName, methodName := traceFileNameAndMethodName()
 
 	fields = append(
 		fields,
-		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
+		zap.String("file_name", fileName),
+		zap.String("app_name", appName),
 	)
 
 	logger.Debug(msg,
@@ -81,33 +94,37 @@ func Debug(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	)
 }
 
-func Warn(ctx context.Context, methodName, msg string, fields ...zap.Field) {
+func Warn(ctx context.Context, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+	fileName, methodName := traceFileNameAndMethodName()
 
 	fields = append(
 		fields,
-		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
+		zap.String("file_name", fileName),
+		zap.String("app_name", appName),
 	)
 
 	logger.Warn(msg, fields...)
 }
 
-func Error(ctx context.Context, methodName, msg string, fields ...zap.Field) {
+func Error(ctx context.Context, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+	fileName, methodName := traceFileNameAndMethodName()
 
 	fields = append(
 		fields,
-		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
+		zap.String("file_name", fileName),
+		zap.String("app_name", appName),
 	)
 
 	logger.Error(msg,
@@ -115,17 +132,19 @@ func Error(ctx context.Context, methodName, msg string, fields ...zap.Field) {
 	)
 }
 
-func Fatal(ctx context.Context, methodName, msg string, fields ...zap.Field) {
+func Fatal(ctx context.Context, msg string, fields ...zap.Field) {
 	traceID, ok := ctx.Value(TraceID).(string)
 	if !ok {
 		traceID = uuid.NewString()
 	}
+	fileName, methodName := traceFileNameAndMethodName()
 
 	fields = append(
 		fields,
-		zap.String("app_name", appName),
 		zap.String("trace_id", traceID),
 		zap.String("method_name", methodName),
+		zap.String("file_name", fileName),
+		zap.String("app_name", appName),
 	)
 
 	logger.Fatal(msg,
