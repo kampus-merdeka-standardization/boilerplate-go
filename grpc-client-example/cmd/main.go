@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	pinger_handler "grpc-client-example/internal/modules/pinger/handler"
+	pinger_client "grpc-client-example/internal/modules/pinger/client"
 	"grpc-client-example/internal/modules/pinger/pinger_grpc_gen"
 
 	"google.golang.org/grpc"
@@ -16,7 +16,7 @@ func main() {
 		panic(err)
 	}
 
-	pHandler := pinger_handler.NewPingerHandler(conn)
+	pHandler := pinger_client.NewPingerHandler(conn)
 
 	res, err := pHandler.Ping(context.Background(), &pinger_grpc_gen.PingRequest{
 		Message: "Hello",

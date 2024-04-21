@@ -1,4 +1,4 @@
-package pinger_handler
+package pinger_client
 
 import (
 	"grpc-client-example/internal/modules/pinger/pinger_grpc_gen"
