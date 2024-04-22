@@ -16,10 +16,14 @@ func main() {
 	pkg_logger.InitLogger(cfg.AppEnv, "logger-app", pkg_http.LOGFILE)
 	srv := pkg_http.NewHTTPServer(cfg.AppEnv)
 
-	srv.Use(pkg_http_middleware.LogHandlerMiddleware(), gin.Logger(), gin.Recovery())
-	srv.Use(pkg_http_middleware.TraceIdAssignmentMiddleware())
-	srv.Use(pkg_http_middleware.CorsHandlerMiddleware())
-	srv.Use(pkg_http_middleware.ErrorHandlerMiddleware())
+	srv.Use(
+		pkg_http_middleware.TraceIdAssignmentMiddleware(),
+		pkg_http_middleware.LogHandlerMiddleware(),
+		gin.Logger(),
+		gin.Recovery(),
+		pkg_http_middleware.CorsHandlerMiddleware(),
+		pkg_http_middleware.ErrorHandlerMiddleware(),
+	)
 
 	srv.GET("", func(ctx *gin.Context) {
 		ctx.JSON(200, "Welcome to Greetings Api")

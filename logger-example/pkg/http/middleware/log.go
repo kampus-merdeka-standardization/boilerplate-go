@@ -39,7 +39,7 @@ func LogHandlerMiddleware() gin.HandlerFunc {
 		if len(c.Errors) > 0 && param.StatusCode >= 500 && param.StatusCode < 600 {
 			param.ErrorMessage = c.Errors[0].Error()
 			pkg_logger.Error(
-				c,
+				c.Request.Context(),
 				"Internal Server Error : "+param.ErrorMessage,
 				zap.String("client_id", param.ClientIP),
 				zap.String("http_method", param.Method),
@@ -50,7 +50,7 @@ func LogHandlerMiddleware() gin.HandlerFunc {
 			)
 		} else {
 			pkg_logger.Debug(
-				c,
+				c.Request.Context(),
 				"LogHandlerMiddleware",
 				zap.String("client_id", param.ClientIP),
 				zap.String("http_method", param.Method),
