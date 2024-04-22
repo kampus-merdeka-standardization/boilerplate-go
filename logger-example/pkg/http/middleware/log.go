@@ -1,6 +1,7 @@
 package pkg_http_middleware
 
 import (
+	"fmt"
 	"time"
 
 	pkg_logger "logger-example/pkg/logger"
@@ -51,7 +52,7 @@ func LogHandlerMiddleware() gin.HandlerFunc {
 		} else {
 			pkg_logger.Debug(
 				c.Request.Context(),
-				"LogHandlerMiddleware",
+				fmt.Sprintf("Request %s [%s]", path, param.Method),
 				zap.String("client_id", param.ClientIP),
 				zap.String("http_method", param.Method),
 				zap.Int("body_size", param.BodySize),
