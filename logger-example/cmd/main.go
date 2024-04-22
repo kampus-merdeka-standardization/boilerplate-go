@@ -17,6 +17,7 @@ func main() {
 	srv := pkg_http.NewHTTPServer(cfg.AppEnv)
 
 	srv.Use(pkg_http_middleware.LogHandlerMiddleware(), gin.Logger(), gin.Recovery())
+	srv.Use(pkg_http_middleware.TraceIdAssignmentMiddleware())
 	srv.Use(pkg_http_middleware.CorsHandlerMiddleware())
 	srv.Use(pkg_http_middleware.ErrorHandlerMiddleware())
 
