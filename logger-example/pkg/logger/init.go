@@ -150,11 +150,4 @@ func Fatal(ctx context.Context, msg string, fields ...zap.Field) {
 	logger.Fatal(msg,
 		fields...,
 	)
-
-	//	func traceMethodName() string {
-	//		pc := make([]uintptr, 1) // at least 1 entry needed
-	//		runtime.Callers(4, pc)
-	//		m := runtime.FuncForPC(pc[0])
-	//		return m.Name()
-	//	}
 }
