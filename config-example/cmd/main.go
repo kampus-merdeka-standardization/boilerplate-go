@@ -1,16 +1,19 @@
 package main
 
 import (
+	internal_configs "config-example/internal/pkg/configs"
 	pkg_http "config-example/pkg/http"
 	pkg_http_middleware "config-example/pkg/http/middleware"
 	pkg_http_wrapper "config-example/pkg/http/wrapper"
 	pkg_logger "config-example/pkg/logger"
+	"context"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	pkg_logger.InitLogger(gin.DebugMode, "config-example", "./log/application.log")
+	config := internal_configs.LoadConfig()
+	pkg_logger.InitLogger(config.AppEnv, config.AppName, config.LogPath)
 	srv := pkg_http.NewHTTPServer(gin.DebugMode)
 
 	srv.Use(
@@ -26,5 +29,7 @@ func main() {
 		ctx.JSON(200, pkg_http_wrapper.NewResponse("Success Request"))
 	})
 
-	srv.Run(":5000")
+	if err := srv.Run(":" + config.AppPort); err != nil {
+		pkg_logger.Fatal(context.Background(), err.Error())
+	}
 }
