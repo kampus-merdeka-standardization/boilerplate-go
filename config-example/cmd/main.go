@@ -1,10 +1,10 @@
 package main
 
 import (
+	hello_handler "config-example/internal/modules/hello/handler"
 	internal_configs "config-example/internal/pkg/configs"
 	pkg_http "config-example/pkg/http"
 	pkg_http_middleware "config-example/pkg/http/middleware"
-	pkg_http_wrapper "config-example/pkg/http/wrapper"
 	pkg_logger "config-example/pkg/logger"
 	"context"
 
@@ -25,9 +25,7 @@ func main() {
 		pkg_http_middleware.ErrorHandlerMiddleware(),
 	)
 
-	srv.GET("", func(ctx *gin.Context) {
-		ctx.JSON(200, pkg_http_wrapper.NewResponse("Success Request"))
-	})
+	hello_handler.BindHelloHandler(srv.Group("hello"))
 
 	if err := srv.Run(":" + config.AppPort); err != nil {
 		pkg_logger.Fatal(context.Background(), err.Error())
