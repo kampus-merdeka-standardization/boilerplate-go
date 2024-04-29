@@ -17,10 +17,10 @@ func main() {
 	srv := pkg_http.NewHTTPServer(gin.DebugMode)
 
 	srv.Use(
+		pkg_http_middleware.TraceIdAssignmentMiddleware(),
 		pkg_http_middleware.LogHandlerMiddleware(),
 		gin.Logger(),
 		gin.Recovery(),
-		pkg_http_middleware.TraceIdAssignmentMiddleware(),
 		pkg_http_middleware.CorsHandlerMiddleware(),
 		pkg_http_middleware.ErrorHandlerMiddleware(),
 	)
