@@ -19,6 +19,6 @@ func (hc *helloController) CreateHello(ctx *gin.Context) {
 
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponseWithValue(fmt.Sprintf("Hello, %s you are %d years old", req.Name, req.Age), req),
+		pkg_http_wrapper.NewResponseWithValue(http.StatusOK,fmt.Sprintf("Hello, %s you are %d years old", req.Name, req.Age), req),
 	)
 }

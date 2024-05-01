@@ -20,6 +20,7 @@ func (hc *helloController) ReplaceHello(ctx *gin.Context) {
 	ctx.JSON(
 		http.StatusOK,
 		pkg_http_wrapper.NewResponse(
+			http.StatusOK,
 			fmt.Sprintf("Your name is replaced from %s to %s", req.CurrentName, req.NewName),
 		),
 	)

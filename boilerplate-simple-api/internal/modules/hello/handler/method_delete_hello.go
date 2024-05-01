@@ -12,6 +12,6 @@ import (
 func (hc *helloController) DeleteHello(ctx *gin.Context) {
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponse(fmt.Sprintf("Your Data by the id of %s is successfully deleted", ctx.Param("id"))),
+		pkg_http_wrapper.NewResponse(http.StatusOK,fmt.Sprintf("Your Data by the id of %s is successfully deleted", ctx.Param("id"))),
 	)
 }

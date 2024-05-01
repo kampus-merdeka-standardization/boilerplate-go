@@ -28,11 +28,12 @@ func TestUpdateHello(t *testing.T) {
 
 		srv.ServeHTTP(res, req)
 
-		resBody := pkg_http_wrapper.NewResponse("")
+		resBody := pkg_http_wrapper.NewResponse(0,"")
 		err = json.Unmarshal(res.Body.Bytes(), &resBody)
 		require.Nil(t, err)
 
 		messageExpect := fmt.Sprintf("Your name is replaced to %s", reqBody.NewName)
-		assert.Equal(t, messageExpect, resBody.Message)
+		assert.Equal(t, messageExpect, resBody.Meta.Message)
+		assert.Equal(t,http.StatusOK,resBody.Meta.Code)
 	})
 }
