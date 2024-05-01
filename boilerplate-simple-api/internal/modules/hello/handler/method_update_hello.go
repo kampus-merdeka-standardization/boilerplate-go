@@ -19,6 +19,6 @@ func (hc *helloController) UpdateHello(ctx *gin.Context) {
 
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponse(fmt.Sprintf("Your name is replaced to %s", req.NewName)),
+		pkg_http_wrapper.NewResponse(http.StatusOK,fmt.Sprintf("Your name is replaced to %s", req.NewName)),
 	)
 }

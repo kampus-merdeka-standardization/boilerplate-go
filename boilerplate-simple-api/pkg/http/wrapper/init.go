@@ -2,29 +2,38 @@ package pkg_http_wrapper
 
 import "time"
 
-func NewResponseWithValue[T any](message string, value T) response[T] {
+func NewResponseWithValue[T any](code int,message string, value T) response[T] {
 	timestamp := time.Now().Format(time.RFC3339)
 
 	return response[T]{
-		Message:   message,
+		Meta: meta{
+			Code: code,
+			Message: message,
+			Timestamp: timestamp,
+		},
 		Value:     value,
-		Timestamp: timestamp,
 	}
 }
 
-func NewResponse(message string) response[any] {
+func NewResponse(code int,message string) response[any] {
 	timestamp := time.Now().Format(time.RFC3339)
 
 	return response[any]{
-		Message:   message,
-		Timestamp: timestamp,
+		Meta: meta{
+			Code: code,
+			Message: message,
+			Timestamp: timestamp,
+		},
 	}
 }
 
-func NewError(error string) response[any] {
+func NewError(code int,err string) response[any] {
 	timestamp := time.Now().Format(time.RFC3339)
 	return response[any]{
-		Error:     error,
-		Timestamp: timestamp,
+		Meta: meta{
+			Code: code,
+			Message: err,
+			Timestamp: timestamp,
+		},	
 	}
 }

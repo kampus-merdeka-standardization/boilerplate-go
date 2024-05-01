@@ -25,12 +25,11 @@ func TestDeleteHello(t *testing.T) {
 
 		messageExpect := fmt.Sprintf("Your Data by the id of %s is successfully deleted", id)
 
-		resBody := pkg_http_wrapper.NewResponse("")
+		resBody := pkg_http_wrapper.NewResponse(0,"")
 		err := json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
 
-		assert.Empty(t, resBody.Error)
-
-		assert.Equal(t, messageExpect, resBody.Message)
+		assert.Equal(t, messageExpect, resBody.Meta.Message)
+		assert.Equal(t,http.StatusOK,resBody.Meta.Code)
 	})
 }
