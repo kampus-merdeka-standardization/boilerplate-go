@@ -1,8 +1,14 @@
 package internal_configs
 
 type config struct {
-	AppName string `env:"APP_NAME"`
-	AppEnv  string `env:"APP_ENV"`
-	AppPort string `env:"APP_PORT"`
-	LogPath string `env:"LOG_PATH"`
+	// APP_NAME
+	// APP_PORT
+	// DB_USERNAME
+	// DB_PASSWORD
+	// DB_HOST
+	AppName    string `env:"APP_NAME"`
+	AppPort    string `env:"APP_PORT"`
+	DbUsername string `env:"DB_USERNAME"`
+	DbPassword string `env:"DB_PASSWORD"`
+	DbHost     string `env:"DB_HOST"`
 }
