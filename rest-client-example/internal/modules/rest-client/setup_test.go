@@ -16,9 +16,9 @@ func setupTest() (client, clientWithTls rest_client.RestClient) {
 	}()
 
 	testDir := getTestDir()
-	certFilePath := filepath.Join(testDir, "..", "..", "..", "test", "cert", "mock-client.crt")
-	KeyFilePath := filepath.Join(testDir, "..", "..", "..", "test", "cert", "mock-client.key")
-	CaCertFilePath := filepath.Join(testDir, "..", "..", "..", "test", "cert", "mock-client.pem")
+	certFilePath := filepath.Join(testDir, "..", "..", "..", "testdata", "cert", "mock-client.crt")
+	KeyFilePath := filepath.Join(testDir, "..", "..", "..", "testdata", "cert", "mock-client.key")
+	CaCertFilePath := filepath.Join(testDir, "..", "..", "..", "testdata", "cert", "mock-client.pem")
 
 	client, _ = rest_client.NewRestClient("http://localhost:8080")
 	clientWithTls, _ = rest_client.NewRestClientWithTls("http://localhost:8080", certFilePath, KeyFilePath, CaCertFilePath)

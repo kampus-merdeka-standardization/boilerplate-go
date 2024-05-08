@@ -27,6 +27,6 @@ func TestSentRequest(t *testing.T) {
 
 		assert.Equal(t, id, res.ID)
 		assert.Equal(t, "Sikat Gigi", res.Name)
-		assert.Equal(t, 12500, res.Price)
+		assert.Equal(t, int64(12500), res.Price)
 	})
 }
