@@ -29,4 +29,11 @@ func TestSentRequest(t *testing.T) {
 		assert.Equal(t, "Sikat Gigi", res.Name)
 		assert.Equal(t, int64(12500), res.Price)
 	})
+
+	t.Run("Failed Sending Get Request Unknown Path", func(t *testing.T) {
+		_, code, err := client.SendRequest(http.MethodGet, "/unknown", nil, nil)
+		require.Nil(t, err)
+
+		assert.Equal(t, http.StatusNotFound, code)
+	})
 }
