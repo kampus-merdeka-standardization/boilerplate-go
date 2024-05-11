@@ -14,6 +14,7 @@ import (
 )
 
 func TestPingMethod(t *testing.T) {
+	setupGrpcServer()
 	t.Run("Successfully Sending Request", func(t *testing.T) {
 		conn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		require.Nil(t, err)
