@@ -11,8 +11,9 @@ func LoadConfig() *config {
 	appEnv := os.Getenv("PROJECT_ENV")
 	if appEnv == "" {
 		godotenv.Load("development.env", ".env")
+	} else {
+		godotenv.Load(appEnv + ".env")
 	}
-	godotenv.Load(appEnv + ".env")
 
 	cfg := new(config)
 	if err := env.Parse(cfg); err != nil {
