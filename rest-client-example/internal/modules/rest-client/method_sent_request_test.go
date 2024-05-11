@@ -30,6 +30,39 @@ func TestSentRequest(t *testing.T) {
 		assert.Equal(t, int64(12500), res.Price)
 	})
 
+	t.Run("Successfully Sending Post Request", func(t *testing.T) {
+		req := mock_http.PostRequest{
+			Name:  "Detergent",
+			Price: 25000,
+		}
+
+		respBody, code, err := client.SendRequest(http.MethodPost, "/product", req, nil)
+		require.Nil(t, err)
+
+		assert.Equal(t, http.StatusOK, code)
+
+		res := new(mock_http.Response)
+
+		err = json.Unmarshal(respBody, res)
+		require.Nil(t, err)
+
+		assert.Equal(t, req.Name, res.Name)
+		assert.Equal(t, req.Price, res.Price)
+	})
+
+	t.Run("Failed Bad Request Body", func(t *testing.T) {
+		respBody, code, err := client.SendRequest(http.MethodPost, "/product", struct {
+			BadBody string
+		}{}, nil)
+		require.Nil(t, err)
+
+		assert.Equal(t, http.StatusBadRequest, code)
+
+		res := new(mock_http.Response)
+		err = json.Unmarshal(respBody, res)
+		require.Nil(t, err)
+	})
+
 	t.Run("Failed Sending Get Request Unknown Path", func(t *testing.T) {
 		_, code, err := client.SendRequest(http.MethodGet, "/unknown", nil, nil)
 		require.Nil(t, err)

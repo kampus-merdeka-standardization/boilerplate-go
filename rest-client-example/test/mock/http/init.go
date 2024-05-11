@@ -9,6 +9,8 @@ import (
 func StartServer() {
 	srv := gin.Default()
 
+	gin.EnableJsonDecoderDisallowUnknownFields()
+
 	product := srv.Group("/product")
 
 	product.GET(":id", func(ctx *gin.Context) {
@@ -21,11 +23,12 @@ func StartServer() {
 
 	product.POST("", func(ctx *gin.Context) {
 		var req PostRequest
-		if err := ctx.ShouldBindJSON(&req); err != nil {
+		if err := ctx.BindJSON(&req); err != nil {
 			ctx.JSON(http.StatusBadRequest, ErrorResponse{
 				Message: "Unable to Parse JSON",
 				Error:   err.Error(),
 			})
+			return
 		}
 
 		ctx.JSON(200, Response{
