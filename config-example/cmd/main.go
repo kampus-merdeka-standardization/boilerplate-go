@@ -4,10 +4,11 @@ import (
 	internal_configs "config-example/internal/pkg/configs"
 	internal_consul "config-example/internal/pkg/consul"
 	"fmt"
+	"os"
 )
 
 func main() {
-	kvClient, err := internal_consul.NewConsulKVClient("108.137.61.233:8500")
+	kvClient, err := internal_consul.NewConsulKVClient(os.Getenv("CONSUL_CLIENT"))
 	if err != nil {
 		panic(err)
 	}
