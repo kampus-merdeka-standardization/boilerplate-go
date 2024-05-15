@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	kvClient, err := internal_consul.NewConsulKVClient("127.0.0.1:8500")
+	kvClient, err := internal_consul.NewConsulKVClient("108.137.61.233:8500")
 	if err != nil {
 		panic(err)
 	}
