@@ -10,10 +10,14 @@ import (
 func LoadConfig() *config {
 	appEnv := os.Getenv("PROJECT_ENV")
 	if appEnv == "" {
-		godotenv.Load("development.env", ".env")
+		godotenv.Load(".env")
 	} else {
 		godotenv.Load(appEnv + ".env")
 	}
+
+	consulClientAddress := os.Getenv("CONSUL_CLIENT")
+
+	loadConfigFromConsul(consulClientAddress)
 
 	cfg := new(config)
 	if err := env.Parse(cfg); err != nil {
