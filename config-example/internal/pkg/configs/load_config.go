@@ -17,7 +17,13 @@ func LoadConfig() *config {
 
 	consulClientAddress := os.Getenv("CONSUL_CLIENT")
 
-	loadConfigFromConsul(consulClientAddress)
+	if consulClientAddress != "" {
+		conf, err := loadConfigFromConsul(consulClientAddress)
+		if err != nil {
+			panic(err)
+		}
+		return conf
+	}
 
 	cfg := new(config)
 	if err := env.Parse(cfg); err != nil {
