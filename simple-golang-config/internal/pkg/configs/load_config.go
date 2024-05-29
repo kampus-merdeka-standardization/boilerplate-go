@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func LoadConfig() *config {
+func (c *configLoader) LoadConfig() *config {
 	appEnv := os.Getenv("PROJECT_ENV")
 	if appEnv == "" {
 		godotenv.Load(".env")

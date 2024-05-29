@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	// config := internal_configs.LoadConfig()
-	config := internal_configs.LoadConfig()
+	configLoader := internal_configs.NewConfigLoader()
+	config := configLoader.LoadConfig()
 
 	fmt.Println("App Name : ", config.AppName)
 	fmt.Println("App Port : ", config.AppPort)

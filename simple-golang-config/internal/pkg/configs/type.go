@@ -12,3 +12,10 @@ type config struct {
 	DbPassword string `env:"DB_PASSWORD"`
 	DbHost     string `env:"DB_HOST"`
 }
+
+type configLoader struct {
+}
+
+type ConfigLoader interface {
+	LoadConfig() *config
+}
