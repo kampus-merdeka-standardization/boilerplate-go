@@ -4,7 +4,7 @@ import (
 	pkg_consul "config-example/internal/pkg/consul"
 )
 
-func loadConfigFromConsul(address string) (*config, error) {
+func loadConfigFromConsul(address string) (*Config, error) {
 	kv, err := pkg_consul.NewConsulKVClient(address)
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func loadConfigFromConsul(address string) (*config, error) {
 		return nil, err
 	}
 
-	return &config{
+	return &Config{
 		AppName:    string(appNameBytes),
 		AppPort:    string(appPortBytes),
 		DbUsername: string(DbUsernameBytes),

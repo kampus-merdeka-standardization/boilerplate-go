@@ -1,6 +1,6 @@
 package internal_configs
 
-type config struct {
+type Config struct {
 	// APP_NAME
 	// APP_PORT
 	// DB_USERNAME
@@ -17,5 +17,5 @@ type configLoader struct {
 }
 
 type ConfigLoader interface {
-	LoadConfig() *config
+	LoadConfig() *Config
 }
