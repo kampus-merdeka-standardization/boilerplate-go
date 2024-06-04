@@ -1,15 +1,15 @@
-package main
+package hello_handler_test
 
 import (
-	hello_handler "simple-golang-monitoring/internal/modules/hello/handler"
+	hello_controller "simple-golang-monitoring/internal/modules/hello/handler"
 	pkg_http "simple-golang-monitoring/pkg/http"
 	pkg_otel "simple-golang-monitoring/pkg/otel"
 
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	app := pkg_http.NewHTTPServer(gin.DebugMode)
+func setupTest() *gin.Engine {
+	srv := pkg_http.NewHTTPServer(gin.TestMode)
 
 	otelAddress := "otel-collector:4317"
 	otelTracer, err := pkg_otel.NewOpenTelemetryTracer(&otelAddress, "simple-golang-monitoring", gin.Mode(), "golang-standarization")
@@ -17,10 +17,6 @@ func main() {
 		panic(err)
 	}
 
-	helloGroup := app.Group("/hello")
-	hello_handler.BindHelloHandler(helloGroup, otelTracer)
-
-	if err := app.Run(":8080"); err != nil {
-		panic(err)
-	}
+	hello_controller.BindHelloHandler(srv.Group("/hello"), otelTracer)
+	return srv
 }
