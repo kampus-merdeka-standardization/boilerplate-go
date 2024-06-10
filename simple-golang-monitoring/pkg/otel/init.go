@@ -2,83 +2,85 @@ package pkg_otel
 
 import (
 	"context"
+	"log"
 
-	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
-	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/metric"
+	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdkTrace "go.opentelemetry.io/otel/sdk/trace"
-	semConv "go.opentelemetry.io/otel/semconv/v1.12.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 	"go.opentelemetry.io/otel/trace"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
-type OpenTelemetryTracer struct {
+type OpenTelemetry struct {
 	tracer trace.Tracer
+	meter  metric.Meter
 }
 
-func NewOpenTelemetryTracer(serviceHost *string, serviceName string, serviceEnv, serviceTribe string) (*OpenTelemetryTracer, error) {
-	var (
-		err  error
-		conn *grpc.ClientConn
-	)
-	conn, err = grpc.DialContext(context.Background(), *serviceHost,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithStreamInterceptor(otelgrpc.StreamClientInterceptor()))
+func NewOpenTelemetryTracer(serviceHost *string, serviceName string, serviceEnv, serviceTribe string) (*OpenTelemetry, error) {
+	ctx := context.Background()
+
+	conn, err := initConn(*serviceHost)
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
 
-	// Create a new OTLP exporter over gRPC
-	exp, err := otlptracegrpc.New(context.Background(),
-		otlptracegrpc.WithGRPCConn(conn))
-	if err != nil {
-		return nil, err
-	}
+	var attributeName = semconv.ServiceNameKey.String(serviceName)
 
-	traceExporter := sdkTrace.SpanExporter(exp)
-	// Create a new trace provider with the exporter.
-	tp := sdkTrace.NewTracerProvider(
-		sdkTrace.WithBatcher(traceExporter),
-		sdkTrace.WithResource(resource.NewWithAttributes(
-			semConv.SchemaURL,
-			semConv.ServiceNameKey.String(serviceName),
+	res, err := resource.New(ctx,
+		resource.WithAttributes(
+			// The service name used to display traces in backends
+			attributeName,
 			attribute.String("tribe", serviceTribe),
 			attribute.String("env", serviceEnv),
 			attribute.String("version", "ver.1"),
 			attribute.String("platform", "go"),
-		)),
+		),
 	)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// Set the global trace provider and the propagation.
-	otel.SetTracerProvider(tp)
-	otel.SetTextMapPropagator(
-		propagation.NewCompositeTextMapPropagator(
-			propagation.Baggage{}, propagation.TraceContext{}))
+	err = initTracerProvider(ctx, res, conn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = initMeterProvider(ctx, res, conn)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	tracer := otel.GetTracerProvider().Tracer(serviceName)
+	tracer := otel.Tracer(serviceName)
+	meter := otel.Meter(serviceName)
 
-	return &OpenTelemetryTracer{tracer: tracer}, nil
+	return &OpenTelemetry{
+		tracer: tracer,
+		meter:  meter,
+	}, nil
 }
 
-func (o *OpenTelemetryTracer) StartTransaction(ctx context.Context, name string) (context.Context, interface{}) {
+func (o *OpenTelemetry) StartTransaction(ctx context.Context, name string, attributes ...trace.SpanStartOption) (context.Context, interface{}) {
 	// Start a new OpenTelemetry span with the given name from a context.
-	ctx, span := o.tracer.Start(ctx, name)
+	ctx, span := o.tracer.Start(ctx, name, attributes...)
 	return ctx, span
 }
 
-func (o *OpenTelemetryTracer) EndTransaction(txn interface{}) {
+func (o *OpenTelemetry) EndTransaction(txn interface{}) {
 	// End the given OpenTelemetry span.
 	span := txn.(trace.Span)
 	span.End()
 }
 
-func (o *OpenTelemetryTracer) EndAPM() {
+func (o *OpenTelemetry) EndAPM() {
 	// shutdown the tracer
 	if tp, ok := otel.GetTracerProvider().(*sdkTrace.TracerProvider); ok {
 		tp.Shutdown(context.Background())
+	}
+
+	// shutdown the meter
+	if mp, ok := otel.GetMeterProvider().(*sdkmetric.MeterProvider); ok {
+		mp.Shutdown(context.Background())
 	}
 }

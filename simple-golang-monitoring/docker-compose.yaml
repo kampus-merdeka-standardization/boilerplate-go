@@ -10,27 +10,22 @@ services:
       - ./config/otel-collector.yaml:/etc/otel-collector.yaml
     ports:
       - 4317:4317
-
   prometheus:
     image: prom/prometheus:v2.52.0
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
-
   jaeger:
     image: jaegertracing/all-in-one:1.57
     ports:
       - 16686:16686
-
   backend:
-    depends_on:
-      - otel-collector
-      - prometheus
-      - jaeger
     build:
-      dockerfile: "./Dockerfile"
+      dockerfile: ./Dockerfile
     ports:
-      - "8080:8080"
+      - 8080:8080
+    env_file:
+      - ./env
 volumes:
   prometheus-data:

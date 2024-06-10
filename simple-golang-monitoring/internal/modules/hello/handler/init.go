@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BindHelloHandler(router *gin.RouterGroup, otelTracer *pkg_otel.OpenTelemetryTracer) {
+func BindHelloHandler(router *gin.RouterGroup, otelTracer *pkg_otel.OpenTelemetry) {
 	// root path : /hello
 	controller := &helloController{
 		tracer: otelTracer,
