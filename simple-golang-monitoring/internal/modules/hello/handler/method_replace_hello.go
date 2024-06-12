@@ -11,6 +11,9 @@ import (
 
 // path : /hello [PUT]
 func (hc *helloController) ReplaceHello(ctx *gin.Context) {
+	_, span := hc.tracer.StartTransaction(ctx.Request.Context(), "Replace Hello Handler")
+	defer hc.tracer.EndTransaction(span)
+
 	var req hello_request.ReplaceHello
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.Error(err)

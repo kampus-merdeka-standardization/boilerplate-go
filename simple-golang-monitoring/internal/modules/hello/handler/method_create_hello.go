@@ -11,6 +11,9 @@ import (
 
 // path : /hello [POST]
 func (hc *helloController) CreateHello(ctx *gin.Context) {
+	_, span := hc.tracer.StartTransaction(ctx.Request.Context(), "Create Hello Handler")
+	defer hc.tracer.EndTransaction(span)
+
 	var req hello_request.CreateHello
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.Error(err)

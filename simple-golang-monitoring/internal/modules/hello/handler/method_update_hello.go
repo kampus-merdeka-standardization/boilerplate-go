@@ -11,6 +11,9 @@ import (
 
 // path : /hello [PATCH]
 func (hc *helloController) UpdateHello(ctx *gin.Context) {
+	_, span := hc.tracer.StartTransaction(ctx.Request.Context(), "Update Hello Handler")
+	defer hc.tracer.EndTransaction(span)
+
 	var req hello_request.UpdateHello
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.Error(err)

@@ -10,7 +10,7 @@ import (
 
 // path : /hello/:name [GET]
 func (hc *helloController) GetHelloByName(c *gin.Context) {
-	_, span := hc.tracer.StartTransaction(c.Request.Context(), "GetHelloByNameHandler")
+	_, span := hc.tracer.StartTransaction(c.Request.Context(), "Get Hello By Name Handler")
 	defer hc.tracer.EndTransaction(span)
 
 	c.JSON(

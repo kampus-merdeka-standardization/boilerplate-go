@@ -1,19 +1,16 @@
 name: "simple-golang-monitoring"
-# Copyright The OpenTelemetry Authors
-# SPDX-License-Identifier: Apache-2.0
-
 services:
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.101.0
     command: ["--config=/etc/otel-collector.yaml"]
     volumes:
-      - ./config/otel-collector.yaml:/etc/otel-collector.yaml
+      - ./configs/otel-collector.yaml:/etc/otel-collector.yaml
     ports:
       - 4317:4317
   prometheus:
     image: prom/prometheus:v2.52.0
     volumes:
-      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus.yaml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
   jaeger:
@@ -26,6 +23,4 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - ./env
-volumes:
-  prometheus-data:
+      - ./.env
