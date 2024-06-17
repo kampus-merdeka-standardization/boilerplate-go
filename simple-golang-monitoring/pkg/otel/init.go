@@ -19,7 +19,7 @@ type OpenTelemetry struct {
 	meter  metric.Meter
 }
 
-func NewOpenTelemetryTracer(serviceHost *string, serviceName string, serviceEnv, serviceTribe string) (*OpenTelemetry, error) {
+func NewOpenTelemetry(serviceHost *string, serviceName string, serviceEnv, serviceTribe string) (*OpenTelemetry, error) {
 	ctx := context.Background()
 
 	conn, err := initConn(*serviceHost)

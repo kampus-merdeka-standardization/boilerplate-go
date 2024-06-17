@@ -3,6 +3,7 @@ package pkg_otel
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
@@ -64,7 +65,13 @@ func initMeterProvider(ctx context.Context, res *resource.Resource, conn *grpc.C
 	}
 
 	meterProvider := sdkmetric.NewMeterProvider(
-		sdkmetric.WithReader(sdkmetric.NewPeriodicReader(metricExporter)),
+		sdkmetric.WithReader(
+			sdkmetric.NewPeriodicReader(
+				metricExporter,
+				// Default is 1m. Set to 3s for demonstrative purposes.
+				sdkmetric.WithInterval(3*time.Second),
+			),
+		),
 		sdkmetric.WithResource(res),
 	)
 	otel.SetMeterProvider(meterProvider)

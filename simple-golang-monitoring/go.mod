@@ -11,6 +11,7 @@ require (
 	github.com/hashicorp/consul/api v1.29.1
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.9.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.52.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v1.27.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.27.0
 	go.opentelemetry.io/otel/sdk/metric v1.27.0
