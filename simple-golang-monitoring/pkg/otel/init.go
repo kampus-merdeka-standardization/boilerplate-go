@@ -19,7 +19,7 @@ type OpenTelemetry struct {
 	meter  metric.Meter
 }
 
-func NewOpenTelemetry(serviceHost *string, serviceName string, serviceEnv, serviceTribe string) (*OpenTelemetry, error) {
+func NewOpenTelemetry(serviceHost *string, serviceName string, serviceEnv string) (*OpenTelemetry, error) {
 	ctx := context.Background()
 
 	conn, err := initConn(*serviceHost)
@@ -33,7 +33,6 @@ func NewOpenTelemetry(serviceHost *string, serviceName string, serviceEnv, servi
 		resource.WithAttributes(
 			// The service name used to display traces in backends
 			attributeName,
-			attribute.String("tribe", serviceTribe),
 			attribute.String("env", serviceEnv),
 			attribute.String("version", "ver.1"),
 			attribute.String("platform", "go"),

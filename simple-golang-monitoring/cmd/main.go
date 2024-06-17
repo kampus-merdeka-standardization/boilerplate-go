@@ -18,7 +18,7 @@ func main() {
 
 	app := pkg_http.NewHTTPServer(configs.AppEnv)
 
-	otel, err := pkg_otel.NewOpenTelemetry(&configs.OtelAddress, configs.AppName, configs.AppEnv, "golang-standarization")
+	otel, err := pkg_otel.NewOpenTelemetry(&configs.OtelAddress, configs.AppName, configs.AppEnv)
 	if err != nil {
 		panic(err)
 	}

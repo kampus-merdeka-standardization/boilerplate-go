@@ -12,7 +12,7 @@ func setupTest() *gin.Engine {
 	srv := pkg_http.NewHTTPServer(gin.TestMode)
 
 	otelAddress := "otel-collector:4317"
-	otelTracer, err := pkg_otel.NewOpenTelemetry(&otelAddress, "simple-golang-monitoring", gin.Mode(), "golang-standarization")
+	otelTracer, err := pkg_otel.NewOpenTelemetry(&otelAddress, "simple-golang-monitoring", gin.Mode())
 	if err != nil {
 		panic(err)
 	}
