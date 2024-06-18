@@ -16,7 +16,7 @@ exporters:
       insecure: true
   prometheus:
     endpoint: 0.0.0.0:9090
-    namespace: testapp
+    namespace: simple-golang-monitoring
   debug:
 
 service:
