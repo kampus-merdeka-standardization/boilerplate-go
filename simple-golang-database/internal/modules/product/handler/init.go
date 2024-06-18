@@ -1,4 +1,4 @@
-package product_api
+package product_handler
 
 import (
 	product_usecase "simple-golang-database/internal/modules/product/usecase"
@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewProductController(router *gin.RouterGroup, productUsecase product_usecase.ProductUsecase) {
+func RegisterProductHandler(router *gin.RouterGroup, productUsecase product_usecase.ProductUsecase) {
 	pController := &productController{
 		productUsecase: productUsecase,
 	}

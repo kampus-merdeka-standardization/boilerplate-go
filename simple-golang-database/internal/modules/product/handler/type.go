@@ -1,4 +1,4 @@
-package product_api
+package product_handler
 
 import product_usecase "simple-golang-database/internal/modules/product/usecase"
 
