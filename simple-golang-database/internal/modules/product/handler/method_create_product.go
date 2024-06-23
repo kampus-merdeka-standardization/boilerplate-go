@@ -21,9 +21,9 @@ func (p *productController) CreateProduct(ctx *gin.Context) {
 		return
 	}
 
-	res := httpWrapper.NewResponseWithValue(http.StatusOK, "Successfully Created Product", gin.H{
+	res := httpWrapper.NewResponseWithValue(http.StatusCreated, "Successfully Created Product", gin.H{
 		"product_id": id,
 	})
 
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusCreated, res)
 }

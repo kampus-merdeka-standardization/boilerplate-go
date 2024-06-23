@@ -17,7 +17,7 @@ func (p *productController) DeleteProductByID(ctx *gin.Context) {
 		return
 	}
 
-	res := httpWrapper.NewResponse(http.StatusOK, "Successfully Deleted Product")
+	res := httpWrapper.NewResponse(http.StatusNoContent, "Successfully Deleted Product")
 
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusNoContent, res)
 }
