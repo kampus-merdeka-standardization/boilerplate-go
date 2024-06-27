@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/error"
+	errorPkg "simple-golang-app/pkg/error"
 )
 
 func NewPing(ctx context.Context, message string) (*PingResolver, error) {

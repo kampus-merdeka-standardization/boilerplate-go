@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	pkg_http_wrapper "simple-api/pkg/http/wrapper"
+	pkg_http_wrapper "simple-golang-rest-server/pkg/http/wrapper"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,11 +23,11 @@ func TestGetHelloByName(t *testing.T) {
 		name := "azie"
 		messageExpect := fmt.Sprintf("Hello, %s!", name)
 
-		resBody := pkg_http_wrapper.NewResponse(0,"")
+		resBody := pkg_http_wrapper.NewResponse(0, "")
 		err := json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
 
 		assert.Equal(t, messageExpect, resBody.Meta.Message)
-		assert.Equal(t, http.StatusOK,resBody.Meta.Code)
+		assert.Equal(t, http.StatusOK, resBody.Meta.Code)
 	})
 }

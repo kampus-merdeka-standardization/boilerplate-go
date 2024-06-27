@@ -6,9 +6,10 @@ import (
 	"net"
 	"testing"
 
-	pinger "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/grpc"
-	pinger_grpc "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/handler/grpc"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
+	pinger "simple-golang-app/internal/modules/pinger/grpc"
+	pinger_grpc "simple-golang-app/internal/modules/pinger/handler/grpc"
+	"simple-golang-app/pkg/logger"
+
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

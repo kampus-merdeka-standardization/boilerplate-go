@@ -3,7 +3,7 @@ package hello_handler
 import (
 	"fmt"
 	"net/http"
-	pkg_http_wrapper "simple-api/pkg/http/wrapper"
+	pkg_http_wrapper "simple-golang-rest-server/pkg/http/wrapper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,6 +12,6 @@ import (
 func (hc *helloController) DeleteHello(ctx *gin.Context) {
 	ctx.JSON(
 		http.StatusOK,
-		pkg_http_wrapper.NewResponse(http.StatusOK,fmt.Sprintf("Your Data by the id of %s is successfully deleted", ctx.Param("id"))),
+		pkg_http_wrapper.NewResponse(http.StatusOK, fmt.Sprintf("Your Data by the id of %s is successfully deleted", ctx.Param("id"))),
 	)
 }

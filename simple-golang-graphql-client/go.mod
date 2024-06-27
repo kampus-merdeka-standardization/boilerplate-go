@@ -1,4 +1,4 @@
-module graphql-client
+module simple-golang-graphql-client
 
 go 1.22.2
 

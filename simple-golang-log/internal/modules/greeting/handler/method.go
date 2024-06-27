@@ -3,7 +3,7 @@ package greeting_handler
 import (
 	"errors"
 	"fmt"
-	pkg_http "logger-example/pkg/http"
+	pkg_http "simple-golang-log/pkg/http"
 
 	"github.com/gin-gonic/gin"
 )

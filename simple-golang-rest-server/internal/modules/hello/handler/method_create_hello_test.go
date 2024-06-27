@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	hello_request "simple-api/internal/modules/hello/models/request"
-	pkg_http_wrapper "simple-api/pkg/http/wrapper"
+	hello_request "simple-golang-rest-server/internal/modules/hello/models/request"
+	pkg_http_wrapper "simple-golang-rest-server/pkg/http/wrapper"
 
 	"testing"
 
@@ -33,7 +33,7 @@ func TestCreateHello(t *testing.T) {
 
 		messageExpect := fmt.Sprintf("Hello, %s you are %d years old", reqBody.Name, reqBody.Age)
 
-		resBody := pkg_http_wrapper.NewResponseWithValue(0,"", hello_request.CreateHello{})
+		resBody := pkg_http_wrapper.NewResponseWithValue(0, "", hello_request.CreateHello{})
 		err = json.Unmarshal(res.Body.Bytes(), &resBody)
 		assert.Nil(t, err)
 

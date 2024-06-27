@@ -3,8 +3,9 @@ package middleware
 import (
 	"time"
 
+	"simple-golang-app/pkg/logger"
+
 	"github.com/gin-gonic/gin"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
 	"go.uber.org/zap"
 )
 

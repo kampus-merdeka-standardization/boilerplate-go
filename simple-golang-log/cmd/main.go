@@ -1,11 +1,11 @@
 package main
 
 import (
-	greeting_handler "logger-example/internal/modules/greeting/handler"
-	"logger-example/internal/pkg/configs"
-	pkg_http "logger-example/pkg/http"
-	pkg_http_middleware "logger-example/pkg/http/middleware"
-	pkg_logger "logger-example/pkg/logger"
+	greeting_handler "simple-golang-log/internal/modules/greeting/handler"
+	"simple-golang-log/internal/pkg/configs"
+	pkg_http "simple-golang-log/pkg/http"
+	pkg_http_middleware "simple-golang-log/pkg/http/middleware"
+	pkg_logger "simple-golang-log/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,12 +1,13 @@
 package main
 
 import (
+	pinger_api "simple-golang-app/internal/modules/pinger/handler/api"
+	"simple-golang-app/internal/pkg/configs"
+	httpPkg "simple-golang-app/pkg/http"
+	"simple-golang-app/pkg/http/middleware"
+	"simple-golang-app/pkg/logger"
+
 	"github.com/gin-gonic/gin"
-	pinger_api "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/handler/api"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/configs"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http/middleware"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
 )
 
 func main() {

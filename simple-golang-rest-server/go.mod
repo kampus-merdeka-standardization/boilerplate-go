@@ -1,4 +1,4 @@
-module simple-api
+module simple-golang-rest-server
 
 go 1.22.2
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	pinger_client "graphql-client/internal/modules/pinger/client"
+	pinger_client "simple-golang-graphql-client/internal/modules/pinger/client"
 
 	"github.com/hasura/go-graphql-client"
 )

@@ -1,8 +1,8 @@
 package mock_grpc_pinger
 
 import (
-	"grpc-client-example/internal/modules/pinger/pinger_grpc_gen"
 	"net"
+	"simple-golang-grpc-client/internal/modules/pinger/pinger_grpc_gen"
 
 	"google.golang.org/grpc"
 )

@@ -6,9 +6,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	pinger_api "simple-golang-app/internal/modules/pinger/handler/api"
+	httpPkg "simple-golang-app/pkg/http"
+
 	"github.com/gin-gonic/gin"
-	pinger_api "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/handler/api"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
 	"github.com/stretchr/testify/assert"
 )
 

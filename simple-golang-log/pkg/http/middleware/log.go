@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	pkg_logger "logger-example/pkg/logger"
+	pkg_logger "simple-golang-log/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

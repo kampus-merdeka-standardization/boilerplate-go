@@ -3,8 +3,8 @@ package pinger_client_test
 import (
 	"context"
 	"fmt"
-	pinger_client "grpc-client-example/internal/modules/pinger/client"
-	"grpc-client-example/internal/modules/pinger/pinger_grpc_gen"
+	pinger_client "simple-golang-grpc-client/internal/modules/pinger/client"
+	"simple-golang-grpc-client/internal/modules/pinger/pinger_grpc_gen"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

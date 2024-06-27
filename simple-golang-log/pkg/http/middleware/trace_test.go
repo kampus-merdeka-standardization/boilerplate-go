@@ -1,10 +1,10 @@
 package pkg_http_middleware_test
 
 import (
-	pkg_http "logger-example/pkg/http"
-	pkg_http_middleware "logger-example/pkg/http/middleware"
 	"net/http"
 	"net/http/httptest"
+	pkg_http "simple-golang-log/pkg/http"
+	pkg_http_middleware "simple-golang-log/pkg/http/middleware"
 	"testing"
 
 	"github.com/gin-gonic/gin"

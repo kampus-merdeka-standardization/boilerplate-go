@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	pinger "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/grpc"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
+	pinger "simple-golang-app/internal/modules/pinger/grpc"
+	"simple-golang-app/pkg/logger"
+
 	"go.uber.org/zap"
 )
 

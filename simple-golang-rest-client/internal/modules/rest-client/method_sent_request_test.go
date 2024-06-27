@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	mock_http "rest-client-example/test/mock/http"
+	mock_http "simple-golang-rest-client/test/mock/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

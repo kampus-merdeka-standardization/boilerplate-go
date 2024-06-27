@@ -2,7 +2,7 @@ package pkg_http_middleware
 
 import (
 	"context"
-	pkg_http "logger-example/pkg/http"
+	pkg_http "simple-golang-log/pkg/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

@@ -1,4 +1,4 @@
-module logger-example
+module simple-golang-log
 
 go 1.22
 

@@ -1,15 +1,16 @@
 package main
 
 import (
+	"simple-golang-app/internal/pkg/configs"
+	query_pkg "simple-golang-app/internal/pkg/graphql/query"
+	"simple-golang-app/internal/pkg/graphql/schema"
+	httpPkg "simple-golang-app/pkg/http"
+	"simple-golang-app/pkg/http/middleware"
+	"simple-golang-app/pkg/logger"
+
 	"github.com/gin-gonic/gin"
 	graphql "github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/configs"
-	query_pkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/graphql/query"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/graphql/schema"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http/middleware"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
 )
 
 func main() {

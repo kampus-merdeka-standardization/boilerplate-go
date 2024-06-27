@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
-	rest_client "rest-client-example/internal/modules/rest-client"
-	"rest-client-example/internal/pkg/configs"
+	rest_client "simple-golang-rest-client/internal/modules/rest-client"
+	"simple-golang-rest-client/internal/pkg/configs"
 )
 
 func main() {

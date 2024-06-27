@@ -1,7 +1,7 @@
 package pkg_http_middleware
 
 import (
-	pkg_logger "simple-api/pkg/logger"
+	pkg_logger "simple-golang-rest-server/pkg/logger"
 	"time"
 
 	"github.com/gin-gonic/gin"

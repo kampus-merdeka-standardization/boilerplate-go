@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	errorPkg "simple-api/pkg/error"
-	pkg_http_wrapper "simple-api/pkg/http/wrapper"
-	pkg_logger "simple-api/pkg/logger"
+	errorPkg "simple-golang-rest-server/pkg/error"
+	pkg_http_wrapper "simple-golang-rest-server/pkg/http/wrapper"
+	pkg_logger "simple-golang-rest-server/pkg/logger"
 )
 
 func ErrorHandler() gin.HandlerFunc {
@@ -24,23 +24,23 @@ func ErrorHandler() gin.HandlerFunc {
 		// if err can be casted to ClientError, then it is a client error
 		if clientError, ok := err.Err.(*errorPkg.ClientError); ok {
 			pkg_logger.Error(clientError.Raw.Error(), zap.Int("Code", clientError.Code))
-			c.JSON(clientError.Code, pkg_http_wrapper.NewError(clientError.Code,clientError.Message))
+			c.JSON(clientError.Code, pkg_http_wrapper.NewError(clientError.Code, clientError.Message))
 			return
 		}
 
 		if err.IsType(gin.ErrorTypeBind) {
 			pkg_logger.Error(err.Error(), zap.Any("Error", err))
-			c.JSON(400, pkg_http_wrapper.NewError(http.StatusBadRequest,err.Err.Error()))
+			c.JSON(400, pkg_http_wrapper.NewError(http.StatusBadRequest, err.Err.Error()))
 			return
 		}
 
 		if err.IsType(gin.ErrorTypePrivate) {
 			pkg_logger.Error(err.Error(), zap.Any("Error", err))
-			c.JSON(500, pkg_http_wrapper.NewError(http.StatusInternalServerError,"Internal Server Error"))
+			c.JSON(500, pkg_http_wrapper.NewError(http.StatusInternalServerError, "Internal Server Error"))
 			return
 		}
 
 		pkg_logger.Error(err.Error(), zap.Any("Error", err))
-		c.JSON(500, pkg_http_wrapper.NewError(http.StatusInternalServerError,"Internal Server Error"))
+		c.JSON(500, pkg_http_wrapper.NewError(http.StatusInternalServerError, "Internal Server Error"))
 	}
 }

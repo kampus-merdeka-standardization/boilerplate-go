@@ -1,7 +1,7 @@
 package rest_client_test
 
 import (
-	rest_client "rest-client-example/internal/modules/rest-client"
+	rest_client "simple-golang-rest-client/internal/modules/rest-client"
 	"testing"
 
 	"github.com/stretchr/testify/require"

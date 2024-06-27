@@ -10,7 +10,7 @@
 package internal_configs_mock
 
 import (
-	internal_configs "config-example/internal/pkg/configs"
+	internal_configs "simple-golang-config/internal/pkg/configs"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"

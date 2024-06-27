@@ -2,8 +2,8 @@ package rest_client_test
 
 import (
 	"path/filepath"
-	rest_client "rest-client-example/internal/modules/rest-client"
-	mock_http "rest-client-example/test/mock/http"
+	rest_client "simple-golang-rest-client/internal/modules/rest-client"
+	mock_http "simple-golang-rest-client/test/mock/http"
 	"sync"
 )
 

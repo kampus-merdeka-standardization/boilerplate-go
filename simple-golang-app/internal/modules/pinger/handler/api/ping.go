@@ -1,8 +1,9 @@
 package pinger_api
 
 import (
+	httpPkg "simple-golang-app/pkg/http"
+
 	"github.com/gin-gonic/gin"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
 )
 
 func (p *pingerController) Ping(ctx *gin.Context) {

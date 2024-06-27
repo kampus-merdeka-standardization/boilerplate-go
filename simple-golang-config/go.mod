@@ -1,4 +1,4 @@
-module config-example
+module simple-golang-config
 
 go 1.22.2
 

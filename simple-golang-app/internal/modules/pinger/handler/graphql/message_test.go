@@ -8,13 +8,14 @@ import (
 	"strings"
 	"testing"
 
+	queryPkg "simple-golang-app/internal/pkg/graphql/query"
+	"simple-golang-app/internal/pkg/graphql/schema"
+	httpPkg "simple-golang-app/pkg/http"
+	"simple-golang-app/pkg/logger"
+
 	"github.com/gin-gonic/gin"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	queryPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/graphql/query"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/pkg/graphql/schema"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
 	"github.com/stretchr/testify/assert"
 )
 

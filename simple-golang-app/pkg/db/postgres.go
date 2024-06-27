@@ -3,10 +3,11 @@ package db
 import (
 	"fmt"
 
+	"simple-golang-app/pkg/logger"
+
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jmoiron/sqlx"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
 	_ "github.com/lib/pq"
 )
 

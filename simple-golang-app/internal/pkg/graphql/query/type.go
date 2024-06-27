@@ -3,7 +3,7 @@ package query_pkg
 import (
 	"context"
 
-	pinger_resolver "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/internal/modules/pinger/handler/graphql"
+	pinger_resolver "simple-golang-app/internal/modules/pinger/handler/graphql"
 )
 
 type rootResolver struct {

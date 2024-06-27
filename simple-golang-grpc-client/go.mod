@@ -1,4 +1,4 @@
-module grpc-client-example
+module simple-golang-grpc-client
 
 go 1.22.2
 

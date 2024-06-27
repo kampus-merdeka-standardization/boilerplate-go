@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	hello_request "simple-api/internal/modules/hello/models/request"
-	pkg_http_wrapper "simple-api/pkg/http/wrapper"
+	hello_request "simple-golang-rest-server/internal/modules/hello/models/request"
+	pkg_http_wrapper "simple-golang-rest-server/pkg/http/wrapper"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,12 +28,12 @@ func TestUpdateHello(t *testing.T) {
 
 		srv.ServeHTTP(res, req)
 
-		resBody := pkg_http_wrapper.NewResponse(0,"")
+		resBody := pkg_http_wrapper.NewResponse(0, "")
 		err = json.Unmarshal(res.Body.Bytes(), &resBody)
 		require.Nil(t, err)
 
 		messageExpect := fmt.Sprintf("Your name is replaced to %s", reqBody.NewName)
 		assert.Equal(t, messageExpect, resBody.Meta.Message)
-		assert.Equal(t,http.StatusOK,resBody.Meta.Code)
+		assert.Equal(t, http.StatusOK, resBody.Meta.Code)
 	})
 }

@@ -1,4 +1,4 @@
-module rest-client-example
+module simple-golang-rest-client
 
 go 1.22.2
 

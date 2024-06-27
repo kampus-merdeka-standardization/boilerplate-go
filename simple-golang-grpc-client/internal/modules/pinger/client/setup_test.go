@@ -1,7 +1,7 @@
 package pinger_client_test
 
 import (
-	mock_grpc_pinger "grpc-client-example/mock/grpc"
+	mock_grpc_pinger "simple-golang-grpc-client/mock/grpc"
 	"sync"
 )
 

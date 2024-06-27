@@ -1,8 +1,8 @@
 package main
 
 import (
-	internal_configs "config-example/internal/pkg/configs"
 	"fmt"
+	internal_configs "simple-golang-config/internal/pkg/configs"
 )
 
 func main() {

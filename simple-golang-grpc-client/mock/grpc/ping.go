@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pinger "grpc-client-example/internal/modules/pinger/pinger_grpc_gen"
+	pinger "simple-golang-grpc-client/internal/modules/pinger/pinger_grpc_gen"
 )
 
 func (p *pingerServer) Ping(ctx context.Context, req *pinger.PingRequest) (*pinger.PingResponse, error) {

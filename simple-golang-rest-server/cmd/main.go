@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	hello_handler "simple-api/internal/modules/hello/handler"
-	pkg_http "simple-api/pkg/http"
+	hello_handler "simple-golang-rest-server/internal/modules/hello/handler"
+	pkg_http "simple-golang-rest-server/pkg/http"
 
 	"github.com/gin-gonic/gin"
 )

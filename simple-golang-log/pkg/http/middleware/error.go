@@ -3,8 +3,8 @@ package pkg_http_middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	errorPkg "logger-example/pkg/error"
-	httpPkg "logger-example/pkg/http"
+	errorPkg "simple-golang-log/pkg/error"
+	httpPkg "simple-golang-log/pkg/http"
 )
 
 func ErrorHandlerMiddleware() gin.HandlerFunc {

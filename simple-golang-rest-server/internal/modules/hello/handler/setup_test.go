@@ -1,8 +1,8 @@
 package hello_handler_test
 
 import (
-	hello_controller "simple-api/internal/modules/hello/handler"
-	pkg_http "simple-api/pkg/http"
+	hello_controller "simple-golang-rest-server/internal/modules/hello/handler"
+	pkg_http "simple-golang-rest-server/pkg/http"
 
 	"github.com/gin-gonic/gin"
 )

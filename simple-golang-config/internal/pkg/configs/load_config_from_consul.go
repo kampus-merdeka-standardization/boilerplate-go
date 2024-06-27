@@ -1,7 +1,7 @@
 package internal_configs
 
 import (
-	pkg_consul "config-example/internal/pkg/consul"
+	pkg_consul "simple-golang-config/internal/pkg/consul"
 )
 
 func loadConfigFromConsul(address string) (*Config, error) {

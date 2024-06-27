@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	errorPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/error"
-	httpPkg "github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/http"
-	"github.com/kampus-merdeka-standardization/boilerplate-pinger-app/pkg/logger"
+	errorPkg "simple-golang-app/pkg/error"
+	httpPkg "simple-golang-app/pkg/http"
+	"simple-golang-app/pkg/logger"
 )
 
 func ErrorHandler() gin.HandlerFunc {
