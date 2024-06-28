@@ -1,3 +1,3 @@
-!example.env
 *.env
+!example.env
 *.log

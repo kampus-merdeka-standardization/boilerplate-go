@@ -3,8 +3,6 @@ package product_postgres
 import (
 	"context"
 
-	errorPkg "simple-golang-database/pkg/error"
-
 	"github.com/google/uuid"
 )
 
@@ -13,7 +11,7 @@ func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx co
 
 	_, err := productPostgresRepository.db.ExecContext(ctx, createProduct, id, name, price)
 	if err != nil {
-		return "", errorPkg.NewBadRequest(err, "Error while creating product")
+		return "", err
 	}
 
 	return id, nil

@@ -23,10 +23,7 @@ func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ct
 
 	if err != nil {
 		tx.Rollback()
-		if err == sql.ErrNoRows {
-			return errorPkg.NewNotFound(err, "Can't find product by that id")
-		}
-		return errorPkg.NewBadRequest(err, "Error While finding product by id")
+		return err
 	}
 
 	_, err = tx.ExecContext(ctx, deleteProductByID, id)
