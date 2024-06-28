@@ -7,7 +7,7 @@ import (
 	errorPkg "simple-golang-database/pkg/error"
 )
 
-func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, id string, name string, price float64) error {
+func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, id string, name string, price int64) error {
 	tx, err := productPostgresRepository.db.BeginTxx(ctx, &sql.TxOptions{
 		Isolation: 0,
 		ReadOnly:  false,

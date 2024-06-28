@@ -2,9 +2,12 @@ package product_postgres
 
 import (
 	"context"
+	"errors"
+	product_entity "simple-golang-database/internal/modules/product/model/entity"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -23,15 +26,46 @@ func TestRepositoryCreateProduct(t *testing.T) {
 
 	repoMock := NewProductRepository(sqlx.NewDb(db, "sqlmock"))
 
-	reqName := "Tea Cup"
-	reqPrice := float64(30000)
+	expectedResult := product_entity.Product{
+		ID:    uuid.NewString(),
+		Name:  "Tea",
+		Price: 25000,
+	}
 
 	t.Run("should execute insert query", func(t *testing.T) {
-		sqlMock.ExpectExec(createProduct).WithArgs("", reqName, reqPrice)
+		sqlMock.ExpectQuery(createProduct).
+			WithArgs(expectedResult.Name, expectedResult.Price).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "name", "price"}).
+				AddRow(expectedResult.ID, expectedResult.Name, expectedResult.Price))
 
-		id, err := repoMock.CreateProduct(context.Background(), reqName, reqPrice)
+		product, err := repoMock.CreateProduct(context.Background(), expectedResult.Name, expectedResult.Price)
 
-		require.NotNil(t, err)
-		assert.NotNil(t, id)
+		require.Nil(t, err)
+
+		assert.Equal(t, expectedResult, product)
+	})
+
+	t.Run("should return error when failed insert query", func(t *testing.T) {
+		rowErr := errors.New("error from db")
+		sqlMock.ExpectQuery(createProduct).
+			WillReturnError(rowErr)
+
+		res, err := repoMock.CreateProduct(context.Background(), "", 0)
+
+		assert.Equal(t, product_entity.Product{}, res)
+		assert.EqualError(t, err, rowErr.Error())
+	})
+
+	t.Run("should return error when get last inserted id", func(t *testing.T) {
+		rowErr := errors.New("error from db")
+
+		sqlMock.ExpectQuery(createProduct).
+			WithArgs(expectedResult.Name, expectedResult.Price).
+			WillReturnError(rowErr)
+
+		res, err := repoMock.CreateProduct(context.Background(), expectedResult.Name, expectedResult.Price)
+
+		assert.Equal(t, product_entity.Product{}, res)
+		assert.EqualError(t, err, rowErr.Error())
 	})
 }

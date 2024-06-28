@@ -2,17 +2,16 @@ package product_postgres
 
 import (
 	"context"
-
-	"github.com/google/uuid"
+	product_entity "simple-golang-database/internal/modules/product/model/entity"
 )
 
-func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx context.Context, name string, price float64) (string, error) {
-	id := uuid.NewString()
+func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx context.Context, name string, price int64) (product_entity.Product, error) {
+	var product product_entity.Product
 
-	_, err := productPostgresRepository.db.ExecContext(ctx, createProduct, id, name, price)
+	err := productPostgresRepository.db.GetContext(ctx, &product, createProduct, name, price)
 	if err != nil {
-		return "", err
+		return product_entity.Product{}, err
 	}
 
-	return id, nil
+	return product, nil
 }

@@ -6,7 +6,7 @@ import (
 	pkg_error "simple-golang-database/pkg/error"
 )
 
-func (productUsecase *productUsecase) UpdateProductByID(ctx context.Context, id string, name string, price float64) error {
+func (productUsecase *productUsecase) UpdateProductByID(ctx context.Context, id string, name string, price int64) error {
 	product, err := productUsecase.productRepository.GetProductByID(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {

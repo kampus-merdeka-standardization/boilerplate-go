@@ -3,15 +3,15 @@ package product_usecase
 import (
 	"context"
 
-	product_entity "simple-golang-database/internal/modules/product/model/entity"
+	product_response "simple-golang-database/internal/modules/product/model/response"
 	product_repository "simple-golang-database/internal/modules/product/repository"
 )
 
 type ProductUsecase interface {
-	CreateProduct(ctx context.Context, name string, price float64) (string, error)
-	GetProductByID(ctx context.Context, id string) (*product_entity.Product, error)
-	GetAllProduct(ctx context.Context) ([]product_entity.Product, error)
-	UpdateProductByID(ctx context.Context, id string, name string, price float64) error
+	CreateProduct(ctx context.Context, name string, price int64) (product_response.Product, error)
+	GetProductByID(ctx context.Context, id string) (product_response.Product, error)
+	GetAllProduct(ctx context.Context) ([]product_response.Product, error)
+	UpdateProductByID(ctx context.Context, id string, name string, price int64) error
 	DeleteProductByID(ctx context.Context, id string) error
 }
 

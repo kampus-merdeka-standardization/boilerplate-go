@@ -15,15 +15,13 @@ func (p *productController) CreateProduct(ctx *gin.Context) {
 		return
 	}
 
-	id, err := p.productUsecase.CreateProduct(ctx, req.Name, req.Price)
+	product, err := p.productUsecase.CreateProduct(ctx, req.Name, req.Price)
 	if err != nil {
 		ctx.Error(err)
 		return
 	}
 
-	res := httpWrapper.NewResponseWithValue(http.StatusCreated, "Successfully Created Product", gin.H{
-		"product_id": id,
-	})
+	res := httpWrapper.NewResponseWithValue(http.StatusCreated, "Successfully Created Product", product)
 
 	ctx.JSON(http.StatusCreated, res)
 }
