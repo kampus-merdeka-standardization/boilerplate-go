@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -27,7 +26,7 @@ func TestRepositoryCreateProduct(t *testing.T) {
 	repoMock := NewProductRepository(sqlx.NewDb(db, "sqlmock"))
 
 	expectedResult := product_entity.Product{
-		ID:    uuid.NewString(),
+		ID:    "123",
 		Name:  "Tea",
 		Price: 25000,
 	}

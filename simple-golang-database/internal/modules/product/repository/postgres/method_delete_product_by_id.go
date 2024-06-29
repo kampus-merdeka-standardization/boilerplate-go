@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	product_model "simple-golang-database/internal/modules/product/model/entity"
-	errorPkg "simple-golang-database/pkg/error"
 )
 
 func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ctx context.Context, id string) error {
@@ -15,12 +14,11 @@ func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ct
 	if err != nil {
 		return err
 	}
+	defer tx.Commit()
 
 	var product product_model.Product
 
 	err = tx.GetContext(ctx, &product, getProductByID, id)
-	defer tx.Commit()
-
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -28,7 +26,8 @@ func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ct
 
 	_, err = tx.ExecContext(ctx, deleteProductByID, id)
 	if err != nil {
-		return errorPkg.NewBadRequest(err, "Error while deleting product by id")
+		tx.Rollback()
+		return err
 	}
 
 	return nil
