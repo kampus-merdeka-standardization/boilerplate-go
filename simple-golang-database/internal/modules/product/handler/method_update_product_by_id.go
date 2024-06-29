@@ -17,13 +17,13 @@ func (p *productController) UpdateProductByID(ctx *gin.Context) {
 		return
 	}
 
-	err := p.productUsecase.UpdateProductByID(ctx, id, req.Name, req.Price)
+	product, err := p.productUsecase.UpdateProductByID(ctx, id, req.Name, req.Price)
 	if err != nil {
 		ctx.Error(err)
 		return
 	}
 
-	res := httpWrapper.NewResponse(http.StatusNoContent, "Succesffuly Updated Product")
+	res := httpWrapper.NewResponseWithValue(http.StatusNoContent, "Succesffuly Updated Product", product)
 
 	ctx.JSON(http.StatusNoContent, res)
 }

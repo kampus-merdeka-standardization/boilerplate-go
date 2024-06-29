@@ -3,33 +3,32 @@ package product_postgres
 import (
 	"context"
 	"database/sql"
-	product_model "simple-golang-database/internal/modules/product/model/entity"
-	errorPkg "simple-golang-database/pkg/error"
+	product_entity "simple-golang-database/internal/modules/product/model/entity"
 )
 
-func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, id string, name string, price int64) error {
+func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ctx context.Context, id string, name string, price int64) (product_entity.Product, error) {
 	tx, err := productPostgresRepository.db.BeginTxx(ctx, &sql.TxOptions{
 		Isolation: 0,
 		ReadOnly:  false,
 	})
 	if err != nil {
-		return err
+		return product_entity.Product{}, nil
 	}
 
-	var product product_model.Product
+	var product product_entity.Product
 
 	err = tx.GetContext(ctx, &product, getProductByID, id)
 	defer tx.Commit()
 
 	if err != nil {
 		tx.Rollback()
-		return err
+		return product_entity.Product{}, err
 	}
 
-	_, err = tx.ExecContext(ctx, updateProductByID, id, name, price)
+	err = tx.GetContext(ctx, &product, updateProductByID, id, name, price)
 	if err != nil {
-		return errorPkg.NewBadRequest(err, "Error while updating product by id")
+		return product_entity.Product{}, err
 	}
 
-	return nil
+	return product, nil
 }

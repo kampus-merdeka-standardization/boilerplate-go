@@ -14,7 +14,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestDeleteProductByID(t *testing.T) {
+func TestUpdateProductByID(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -26,43 +26,56 @@ func TestDeleteProductByID(t *testing.T) {
 
 	repoMock := NewProductRepository(sqlx.NewDb(db, "sqlmock"))
 
+	oldRow := product_entity.Product{
+		ID:    "123",
+		Name:  "Coffee",
+		Price: 50000,
+	}
+
 	expecteRow := product_entity.Product{
 		ID:    "123",
 		Name:  "Tea",
 		Price: 25000,
 	}
 
-	t.Run("should execute insert query", func(t *testing.T) {
+	t.Run("should execute update query", func(t *testing.T) {
 		sqlMock.ExpectBegin()
+
 		sqlMock.ExpectQuery(getProductByID).
-			WithArgs(expecteRow.ID).
+			WithArgs(oldRow.ID).
+			WillReturnRows(
+				sqlmock.NewRows([]string{"id", "name", "price"}).
+					AddRow(oldRow.ID, oldRow.Name, oldRow.Price),
+			)
+
+		sqlMock.ExpectQuery(updateProductByID).
+			WithArgs(expecteRow.ID, expecteRow.Name, expecteRow.Price).
 			WillReturnRows(
 				sqlmock.NewRows([]string{"id", "name", "price"}).
 					AddRow(expecteRow.ID, expecteRow.Name, expecteRow.Price),
 			)
-		sqlMock.ExpectExec(deleteProductByID).WithArgs(expecteRow.ID).
-			WillReturnResult(sqlmock.NewResult(0, 1))
 
 		sqlMock.ExpectCommit()
 
-		err := repoMock.DeleteProductByID(context.Background(), expecteRow.ID)
+		product, err := repoMock.UpdateProductByID(context.Background(), expecteRow.ID, expecteRow.Name, expecteRow.Price)
 		require.Nil(t, err)
+		assert.Equal(t, expecteRow, product)
 	})
 
-	t.Run("should return error when failed delete query", func(t *testing.T) {
+	t.Run("should return error when failed update query", func(t *testing.T) {
 		dbErr := errors.New("database error")
 		sqlMock.ExpectBegin()
 		sqlMock.ExpectQuery(getProductByID).
 			WithArgs(expecteRow.ID).
 			WillReturnRows(
 				sqlmock.NewRows([]string{"id", "name", "price"}).
-					AddRow(expecteRow.ID, expecteRow.Name, expecteRow.Price),
+					AddRow(oldRow.ID, oldRow.Name, oldRow.Price),
 			)
-		sqlMock.ExpectExec(deleteProductByID).
+		sqlMock.ExpectQuery(updateProductByID).WithArgs(expecteRow.ID, expecteRow.Name, expecteRow.Price).
 			WillReturnError(dbErr)
 		sqlMock.ExpectRollback()
 
-		err := repoMock.DeleteProductByID(context.Background(), expecteRow.ID)
+		_, err := repoMock.UpdateProductByID(context.Background(), expecteRow.ID, expecteRow.Name, expecteRow.Price)
 		assert.EqualError(t, err, dbErr.Error())
 	})
 
@@ -75,7 +88,7 @@ func TestDeleteProductByID(t *testing.T) {
 
 		sqlMock.ExpectRollback()
 
-		err := repoMock.DeleteProductByID(context.Background(), expecteRow.ID)
+		_, err := repoMock.UpdateProductByID(context.Background(), expecteRow.ID, expecteRow.Name, expecteRow.Price)
 		assert.EqualError(t, err, noRowsErr.Error())
 	})
 }
