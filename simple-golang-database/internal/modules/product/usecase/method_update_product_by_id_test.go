@@ -12,7 +12,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestUpdateProductbyID(t *testing.T) {
+func TestUsecaseUpdateProductbyID(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 

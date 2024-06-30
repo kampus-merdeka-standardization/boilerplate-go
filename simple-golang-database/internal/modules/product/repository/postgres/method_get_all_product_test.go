@@ -13,7 +13,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestGetAllProduct(t *testing.T) {
+func TestRepositoryGetAllProduct(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()

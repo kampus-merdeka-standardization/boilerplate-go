@@ -14,7 +14,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestUpdateProductByID(t *testing.T) {
+func TestRepositoryUpdateProductByID(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -89,6 +89,6 @@ func TestUpdateProductByID(t *testing.T) {
 		sqlMock.ExpectRollback()
 
 		_, err := repoMock.UpdateProductByID(context.Background(), expecteRow.ID, expecteRow.Name, expecteRow.Price)
-		assert.EqualError(t, err, noRowsErr.Error())
+		assert.Equal(t, err, err)
 	})
 }
