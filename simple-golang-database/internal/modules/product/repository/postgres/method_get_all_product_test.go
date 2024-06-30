@@ -45,7 +45,7 @@ func TestGetAllProduct(t *testing.T) {
 		assert.Equal(t, expectedResults, products)
 	})
 
-	t.Run("should return error when failed insert query", func(t *testing.T) {
+	t.Run("should return error when failed select query", func(t *testing.T) {
 		rowErr := errors.New("error from db")
 		sqlMock.ExpectQuery(getAllProduct).
 			WillReturnError(rowErr)
