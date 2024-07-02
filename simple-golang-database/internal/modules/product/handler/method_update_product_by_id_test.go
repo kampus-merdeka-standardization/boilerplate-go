@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	product_request "simple-golang-database/internal/modules/product/model/request"
@@ -20,7 +21,7 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func TestHandlerCreateProduct(t *testing.T) {
+func TestHandlerUpdateProductByID(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -30,6 +31,7 @@ func TestHandlerCreateProduct(t *testing.T) {
 	}
 
 	url := "/product"
+	urlWithParameter := url + "/:id"
 	app := pkg_http.NewHTTPServer(gin.TestMode)
 	app.Use(
 		gin.Logger(),
@@ -37,13 +39,15 @@ func TestHandlerCreateProduct(t *testing.T) {
 		pkg_http_middleware.ErrorHandler(),
 		pkg_http_middleware.CorsHandler(),
 	)
-	app.POST(url, handlerMock.CreateProduct)
+	app.PUT(urlWithParameter, handlerMock.UpdateProductByID)
 
-	param := product_request.CreateProduct{
+	param := product_request.UpdateProduct{
 		Name:  "Handuk",
 		Price: 125000,
 	}
 	bodyRequest, _ := json.Marshal(param)
+
+	paramID := "abc1d-1lakd1"
 
 	expectedRes := product_response.Product{
 		ID:    "abc1d-1lakd1",
@@ -52,9 +56,9 @@ func TestHandlerCreateProduct(t *testing.T) {
 	}
 
 	t.Run("should return 200 with expected response", func(t *testing.T) {
-		usecaseMock.EXPECT().CreateProduct(gomock.Any(), param.Name, param.Price).Return(expectedRes, nil)
+		usecaseMock.EXPECT().UpdateProductByID(gomock.Any(), paramID, param.Name, param.Price).Return(expectedRes, nil)
 
-		req := httptest.NewRequest(http.MethodPost, url, bytes.NewReader(bodyRequest))
+		req := httptest.NewRequest(http.MethodPut, fmt.Sprintf("%s/%s", url, paramID), bytes.NewReader(bodyRequest))
 		w := httptest.NewRecorder()
 
 		app.ServeHTTP(w, req)
@@ -62,7 +66,7 @@ func TestHandlerCreateProduct(t *testing.T) {
 		res := pkg_http_wrapper.NewResponseWithValue(0, "", product_response.Product{})
 		err := json.NewDecoder(w.Body).Decode(&res)
 
-		assert.Equal(t, http.StatusCreated, w.Result().StatusCode)
+		assert.Equal(t, http.StatusOK, w.Result().StatusCode)
 		require.Nil(t, err)
 		assert.Equal(t, expectedRes, res.Value)
 	})
@@ -70,7 +74,7 @@ func TestHandlerCreateProduct(t *testing.T) {
 	t.Run("should return 400 - invalid body request", func(t *testing.T) {
 		bodyRequest, _ := json.Marshal(map[string]string{})
 
-		req := httptest.NewRequest(http.MethodPost, url, bytes.NewReader(bodyRequest))
+		req := httptest.NewRequest(http.MethodPut, fmt.Sprintf("%s/%s", url, paramID), bytes.NewReader(bodyRequest))
 		w := httptest.NewRecorder()
 
 		app.ServeHTTP(w, req)
@@ -86,10 +90,10 @@ func TestHandlerCreateProduct(t *testing.T) {
 		expectedErr := errors.New("error from usecase")
 
 		usecaseMock.EXPECT().
-			CreateProduct(gomock.Any(), param.Name, param.Price).
+			UpdateProductByID(gomock.Any(), paramID, param.Name, param.Price).
 			Return(product_response.Product{}, expectedErr)
 
-		req := httptest.NewRequest(http.MethodPost, url, bytes.NewReader(bodyRequest))
+		req := httptest.NewRequest(http.MethodPut, fmt.Sprintf("%s/%s", url, paramID), bytes.NewReader(bodyRequest))
 		w := httptest.NewRecorder()
 
 		app.ServeHTTP(w, req)
