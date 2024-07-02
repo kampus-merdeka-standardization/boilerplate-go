@@ -18,7 +18,9 @@ func (productPostgresRepository *productPostgresRepository) DeleteProductByID(ct
 
 	var product product_model.Product
 
-	err = tx.GetContext(ctx, &product, getProductByID, id)
+	row := productPostgresRepository.db.QueryRowContext(ctx, getProductByID, id)
+
+	err = row.Scan(&product)
 	if err != nil {
 		tx.Rollback()
 		return err

@@ -8,7 +8,9 @@ import (
 func (productPostgresRepository *productPostgresRepository) GetProductByID(ctx context.Context, id string) (product_model.Product, error) {
 	var product product_model.Product
 
-	err := productPostgresRepository.db.GetContext(ctx, &product, getProductByID, id)
+	row := productPostgresRepository.db.QueryRowContext(ctx, getProductByID, id)
+
+	err := row.Scan(&product)
 	if err != nil {
 		return product_model.Product{}, err
 	}
