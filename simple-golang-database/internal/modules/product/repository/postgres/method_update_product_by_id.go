@@ -14,13 +14,11 @@ func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ct
 	if err != nil {
 		return product_entity.Product{}, nil
 	}
-	defer tx.Commit()
 
 	var product product_entity.Product
 
-	row := productPostgresRepository.db.QueryRowContext(ctx, getProductByID, id)
-
-	err = row.Scan(&product)
+	err = tx.GetContext(ctx, &product, getProductByID, id)
+	defer tx.Commit()
 
 	if err != nil {
 		tx.Rollback()
