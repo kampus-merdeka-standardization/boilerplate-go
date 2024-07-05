@@ -25,7 +25,9 @@ func (productPostgresRepository *productPostgresRepository) UpdateProductByID(ct
 		return product_entity.Product{}, err
 	}
 
-	err = tx.GetContext(ctx, &product, updateProductByID, id, name, price)
+	row := tx.QueryRowxContext(ctx, updateProductByID, id, name, price)
+
+	err = row.StructScan(&product)
 	if err != nil {
 		return product_entity.Product{}, err
 	}

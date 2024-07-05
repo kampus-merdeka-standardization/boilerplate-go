@@ -8,7 +8,9 @@ import (
 func (productPostgresRepository *productPostgresRepository) CreateProduct(ctx context.Context, name string, price int64) (product_entity.Product, error) {
 	var product product_entity.Product
 
-	err := productPostgresRepository.db.GetContext(ctx, &product, createProduct, name, price)
+	row := productPostgresRepository.db.QueryRowxContext(ctx, createProduct, name, price)
+
+	err := row.StructScan(&product)
 	if err != nil {
 		return product_entity.Product{}, err
 	}

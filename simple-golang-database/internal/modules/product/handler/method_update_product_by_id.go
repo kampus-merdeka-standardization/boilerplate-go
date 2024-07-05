@@ -25,5 +25,5 @@ func (p *productController) UpdateProductByID(ctx *gin.Context) {
 
 	res := httpWrapper.NewResponseWithValue(http.StatusNoContent, "Succesffuly Updated Product", product)
 
-	ctx.JSON(http.StatusNoContent, res)
+	ctx.JSON(http.StatusOK, res)
 }

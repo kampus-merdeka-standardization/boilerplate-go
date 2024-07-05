@@ -9,6 +9,7 @@ import (
 	pkg_db "simple-golang-database/pkg/db"
 	pkg_http "simple-golang-database/pkg/http"
 	pkg_http_middleware "simple-golang-database/pkg/http/middleware"
+	pkg_logger "simple-golang-database/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,12 +25,13 @@ func main() {
 	})
 
 	srv := pkg_http.NewHTTPServer(cfg.AppEnv)
+	pkg_logger.InitLogger(gin.Mode(), "./log/application.log")
 
 	srv.Use(
 		gin.Logger(),
 		gin.Recovery(),
-		pkg_http_middleware.ErrorHandler(),
 		pkg_http_middleware.CorsHandler(),
+		pkg_http_middleware.ErrorHandler(),
 	)
 
 	productRepository := product_postgres.NewProductRepository(db)
